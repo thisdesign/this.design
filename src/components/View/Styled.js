@@ -27,8 +27,8 @@ const View = styled.div`
       if (activeView === 'work' && viewName === 'work') return '0'
       if (activeView === 'work' && viewName === 'root') return '100%'
 
-      if (activeView === 'root' && viewName === 'about') return '50%'
-      if (activeView === 'root' && viewName === 'work') return '-50%'
+      if (activeView === 'root' && viewName === 'about') return '100%'
+      if (activeView === 'root' && viewName === 'work') return '-100%'
       if (activeView === 'root' && viewName === 'root') return '0'
       return null
     }},

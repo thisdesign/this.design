@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react'
-import HomepageWrapper from 'containers/Homepage/Homepage'
+// import HomepageWrapper from 'containers/Homepage/Homepage'
 import { withRouter } from 'react-router-dom'
 import CaseStudyQueue from 'containers/CaseStudyQueue/CaseStudyQueue'
+import Work from 'components/Work/Work'
 import PropTypes from 'prop-types'
 import Loading from 'components/Loading/Loading'
 import { ApiDataCtx } from 'containers/App/App'
@@ -26,7 +27,8 @@ function Root({ projectLaunchStatus, history }) {
 
   return (
     <>
-      {!caseStudySelected && <HomepageWrapper shim {...{ openingFromHome }} />}
+      {/* {!caseStudySelected && <HomepageWrapper shim {...{ openingFromHome }} />} */}
+      { !caseStudySelected && <Work /> }
       <>
         {projectLaunchStatus !== 'ready' && <Loading />}
         {projectLaunchStatus !== 'transitioning' && (

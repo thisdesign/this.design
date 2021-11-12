@@ -117,8 +117,11 @@ const lineBreak = /(\r\n|\n|\r)/gm
 const sanitize = (str: string) => str.replace(lineBreak, ' ')
 
 const HeadMeta = () => {
-  const { isHome, next, meta } = useContext(CsContext)
+  const context = useContext(CsContext)
+  const { isHome, next, meta } = context
   const { currentUid } = useContext(LayoutContext).csState
+
+  console.log('case study', context)
 
   if (!isHome && !next) {
     return (

@@ -17,11 +17,12 @@ function CaseStudyQueue({
   const { caseStudies, caseStudyUids } = useContext(ApiDataCtx)
   const { isAnimating, initCsChange } = useCsChange({ history })
   const csTrack = useCsTrack()
-  const { isHome } = useContext(LayoutContext).csState
+  const context = useContext(LayoutContext).csState
+  const { isHome, caseStudySelected } = context
 
   return csTrack.map(
     (uid, i) =>
-      uid !== null && (
+      uid !== null && caseStudySelected && (
         <CaseStudy
           key={uid}
           next={i === 1}

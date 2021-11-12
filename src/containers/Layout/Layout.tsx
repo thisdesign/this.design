@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeProvider } from 'styled-components/macro'
 import Nav from 'components/Nav/Nav'
-import Work from 'components/Work/Work'
+// import Work from 'components/Work/Work'
 import Head from 'components/Head'
 import View from 'components/View/View'
 import About from 'containers/About/About'
@@ -79,14 +79,14 @@ const Layout: React.FC<ILayoutProps> = ({ view, pathUid }) => {
         >
           <GlobalStyle />
           <AppMeta />
-          <Nav />
+          {/* <Nav /> */}
           <main className={`views -view-is-${view}`}>
             <View viewName="root" view={view}>
               <Root {...{ projectLaunchStatus }} />
             </View>
-            <View aside viewName="work" view={view}>
+            {/* <View aside viewName="work" view={view}>
               <Work />
-            </View>
+            </View> */ }
             <View aside viewName="about" view={view}>
               <About />
             </View>
