@@ -35,7 +35,6 @@ Styled.Inner = styled.div`
     background || theme.color.caseStudyBg};
   transform: translateZ(0);
   position: relative;
-  padding-bottom: ${({ theme }) => theme.margin.lg};
 
   ${({ textColor }) =>
     textColor &&

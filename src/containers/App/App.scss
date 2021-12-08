@@ -39,6 +39,19 @@ img {
   max-height: 100%;
   width: 100%;
   overflow-x: hidden;
+  &.-view-is-about{
+    background-color: black;
+    &:before {
+      position: fixed;
+      content: '';
+      display: block;
+      right: 0;
+      top: 0;
+      width: 36px;
+      bottom: 0;
+      background-color: white;
+    }
+  }
 }
 
 #io-prismic-toolbar {

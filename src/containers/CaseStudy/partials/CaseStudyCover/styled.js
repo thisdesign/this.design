@@ -11,17 +11,39 @@ const zIndex = {
   header: 30,
 }
 
+Styled.Logo = styled.img`
+  width: 140px;
+  position: absolute;
+  bottom: 65%;
+  @media (max-width: 475px) {
+    bottom: 45%;
+  }
+  transition: transform 600ms ${({ theme }) => theme.ease.standard};
+  ${({ next, csTransitioning }) => {
+    if (next && !csTransitioning) {
+      return css`
+        transform: translateY(40vh);
+        @media (max-width: 475px) {
+          transform: translateY(25vh);
+        }
+      `
+    }
+    return null
+  }}
+
+`
+
 Styled.Cover = styled.div`
   height: var(--windowHeight);
   width: 100%;
   position: relative;
   color: white;
-  z-index: 0;
+  z-index: 1;
 `
 
 Styled.Fill = styled.div`
   background-color: ${({ backgroundColor }) => backgroundColor || '#161616'};
-  height: calc(var(--windowHeight) + 30vw);
+  height: 100vh;
   left: 0;
   position: absolute;
   top: 0;
@@ -32,12 +54,20 @@ Styled.Fill = styled.div`
 Styled.Header = styled.div`
   ${css(({ theme }) => theme._wrapNav)}
   position: absolute;
+  box-s
   left: 0;
-  padding-top: 160px;
   top: 0;
-  max-width: 15em;
   z-index: ${zIndex.header};
   transform: translate3d(0, 0, 0);
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  width 100%;
+  box-sizing: border-box;
+  padding-bottom: 150px;
+  @media (max-width:475px) {
+    padding-bottom: 60px;
+  }
 `
 
 const Item = styled.div`
@@ -53,14 +83,27 @@ const Item = styled.div`
     }
     if (itemTitle && next && !csTransitioning) {
       return css`
-        transform: translateY(calc(var(--windowHeight) - 400px));
+        transform: translateY(150px);
+        opacity: 0;
       `
     }
     return null
   }}
 `
 
-Styled.Title = styled(Item)``
+Styled.Title = styled(Item)`
+  margin-bottom: 15px;
+  p {
+    font-family: calibre-light;
+    line-height: .9;
+    font-size: 80px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    @media (max-width:475px) {
+      font-size: 30px;
+    }
+  }
+`
 
 Styled.Desc = styled(Item)``
 

@@ -1,6 +1,24 @@
 @import '../../styles/variables.scss';
 @import '../../styles/breakpoints.scss';
 
+.nav__mobile-logo{
+  position: absolute;
+  left: 0;
+  top: 20px;
+  left: 4px;
+  width: 46px;
+  mix-blend-mode: difference;
+  box-sizing: border-box;
+  padding-left: 6px;
+  z-index: 1004;
+  img {
+    width:36px;
+  }
+  @media (min-width: 476px) {
+    display: none;
+  }
+}
+
 .nav {
   background-color: transparent;
   left: 0;
@@ -10,10 +28,58 @@
   width: 100%;
   z-index: 1004;
   box-sizing: border-box;
-  pointer-events: none;
+  mix-blend-mode: difference;
+  transform: translateZ(0);
 
   @include breakpoint(xs) {
     padding-top: $nav-padding-xs;
+  }
+
+  .nav__close {
+    position: fixed;
+    z-index: 105;
+    top: 10px;
+    width: 15px;
+    height: 15px;
+    display: none;
+    a {
+      display: block;
+    }
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    @media (max-width: 475px){
+      display: none !important;
+    }
+  }
+
+  .nav__item {
+    transition: .3s;
+    @media (max-width: 475px) {
+      display: none;
+    }
+  }
+
+  .nav__item a{
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .nav__item--logo{
+    width: 65px; 
+    @media (max-width: 475px) {
+      display: none;
+    }
+  }
+
+  &.-wrap-nav{
+    padding: 20px;
   }
 
   &__inner {
@@ -21,17 +87,58 @@
     justify-content: space-between;
   }
 
+  @media (max-width: 475px) {
+    display: flex;
+    width: 30px;
+    justify-content: flex-end;
+    left: unset;
+    right: 0;
+    &.-wrap-nav{
+      padding: 20px 9px 0 0;
+    }
+  }
+
+  .nav__mobile {
+    display: none;
+    @media (max-width: 475px) {
+      display: inline;
+    }
+  }
+
+  &.is-subpage {
+    .nav__close {
+      right: 20px;
+      display: block;
+    }
+    .nav__item.link {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
+
   &.-view-is-about {
+    .nav__close {
+      right: 10px;
+      display: block;
+    }
+    .nav__item.link {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
     .icon--grid {
       opacity: 0; // hide 'work' link when view is 'about'
       visibility: hidden;
     }
   }
 
-  &.-view-is-work {
-    .icon--about {
-      opacity: 0; // hide 'about' link when view is 'work'
-      visibility: hidden;
+  &.-view-is-shop {
+    .nav__close {
+      right: 10px;
+      display: block;
+    }
+    .nav__item.link {
+      transform: translateY(-50px);
+      opacity: 0;
     }
   }
 

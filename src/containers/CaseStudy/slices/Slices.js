@@ -13,10 +13,10 @@ import PanningGallery from './PanningGallery/PanningGallery'
 import YouTube from './YouTube'
 import Iframe from './Iframe/Iframe'
 
-const Slice = ({ children, type }) => (
+const Slice = ({ children, type, spacing }) => (
   <WaypointAnim
     disabled={type === 'columns'}
-    className={`casestudy__block casestudy__block--${type}`}
+    className={`casestudy__block casestudy__block--${type} -${spacing}`}
   >
     {children}
   </WaypointAnim>
@@ -24,34 +24,49 @@ const Slice = ({ children, type }) => (
 
 const Slices = ({ sliceData, title }) => {
   const slices = sliceData.map((data) => {
+    console.log(data)
     const atts = { data, title }
+    let spacing = undefined
     switch (data.slice_type) {
       case 'text':
-        return <Text value={RichText.render(data.value)} type="text" />
+        return <Text spacing="medium" value={RichText.render(data.value)} type="text" />
+      case 'text_v2':
+        spacing = data?.primary?.spacing
+        return <Text {...atts} spacing={spacing} value={RichText.render(data.primary.text)} type="text" />
       case 'columns':
       case 'columns-v2':
-        return <Columns.Wrapper {...atts} type="columns" />
+        spacing = data?.primary?.spacing
+        return <Columns.Wrapper {...atts} spacing={spacing} type="columns" />
       case 'image':
       case 'image-v2':
-        return <Image.Wrapper {...atts} type="image" />
+        spacing = data?.primary?.spacing
+        return <Image.Wrapper spacing={spacing} {...atts} type="image" />
       case 'diptych':
       case 'diptych-v2':
-        return <Diptych.Wrapper {...atts} type="diptych" />
+        spacing = data?.primary?.spacing
+        return <Diptych.Wrapper spacing={spacing} {...atts} type="diptych" />
       case 'video':
-        return <Video {...atts} type="video" />
+        spacing = data.value[0] ? data.value[0].spacing : undefined
+        return <Video {...atts} spacing={spacing} type="video" />
       case 'panning_gallery':
-        return <PanningGallery {...atts} type="panning-gallery" />
+        spacing = data?.primary?.spacing
+        return <PanningGallery {...atts} spacing={spacing} type="panning-gallery" />
       case 'gallery':
       case 'gallery-v2':
-        return <Gallery.Wrapper {...atts} type="gallery" />
+        spacing = data?.primary?.spacing
+        return <Gallery.Wrapper {...atts} spacing={spacing} type="gallery" />
       case 'pullquote':
-        return <Pullquote {...atts} type="pullquote" />
+        spacing = data?.primary?.spacing
+        return <Pullquote {...atts} spacing={spacing} type="pullquote" />
       case 'website':
-        return <Website.Wrapper {...atts} />
+        spacing = data?.primary?.spacing
+        return <Website.Wrapper spacing={spacing} {...atts} />
       case 'iframe':
-        return <Iframe.Wrapper {...atts} />
+        spacing = data?.primary?.spacing
+        return <Iframe.Wrapper spacing={spacing} {...atts} />
       case 'youtube_embed':
-        return <YouTube.Wrapper {...atts} type="youtube" />
+        spacing = data?.primary?.spacing
+        return <YouTube.Wrapper spacing={spacing} {...atts} type="youtube" />
       case 'mobile':
         console.error('Mobile is depricated, please use columns')
         return <></>
@@ -61,11 +76,13 @@ const Slices = ({ sliceData, title }) => {
     }
   })
 
-  return slices.map((slice, i) => (
-    <Slice type={slice.props.type} key={`${slice.props.type}${i}`}>
-      {slice}
-    </Slice>
-  ))
+  return slices.map((slice, i) => {
+    return (
+      <Slice type={slice.props.type} spacing={slice.props.spacing} key={`${slice.props.type}${i}`}>
+        {slice}
+      </Slice>
+    )
+    })
 }
 
 export default React.memo(Slices)

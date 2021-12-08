@@ -38,13 +38,14 @@ Styled.Text = styled.div`
 
   & > div {
     max-width: 25em;
-    margin: 0 auto;
+    margin: 0 auto 50px;
   }
 `
 
 Styled.Media = styled(Parallax)`
   ${_col} ${_padding}
   max-width: 80em;
+  margin-bottom: 50px;
   flex-basis: 50%;
 
   > div {

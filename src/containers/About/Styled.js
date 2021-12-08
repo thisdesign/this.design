@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 
 const Wrapper = styled.div`
+  background-color: white;
   color: ${props => props.theme.color.textLt};
 
   h1,

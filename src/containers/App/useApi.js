@@ -13,6 +13,8 @@ export default function useApi({ context }) {
       })
       .then(res => res.results)
 
+      console.log(caseStudies)
+
     const contextUids = await api
       .getByUID('context', context || 'home')
       .then(doc => doc)
@@ -23,9 +25,8 @@ export default function useApi({ context }) {
     )
 
     const caseStudyUids = caseStudies.map(cs => cs.uid)
-
+    const home = await api.getSingle('home').then(doc => doc.data)
     const siteInfo = await api.getSingle('site').then(doc => doc.data)
-
     const about = await api.getSingle('about').then(doc => doc.data)
 
     setState({
@@ -36,6 +37,7 @@ export default function useApi({ context }) {
       siteInfo,
       about,
       api,
+      home,
     })
   }
 

@@ -27,7 +27,16 @@ interface IContextProps {
   next: boolean
   openingFromHome: boolean
   alt: string
-  csTransitioning: boolean
+  csTransitioning: boolean,
+  svg: any,
+  dark: boolean,
+  credits: any, 
+  tags: any,
+  date: any, 
+  launch_site_text: string, 
+  launch_site_link: any,
+  launch_site_background: any, 
+  launch_site_text1: any, 
   meta: {
     description: string
     title: string
@@ -79,6 +88,14 @@ const CaseStudy: React.FC<IProps> = ({
     <CsContext.Provider
       value={{
         ..._getContextProps(doc.data),
+        svg: doc.data.svg,
+        credits: doc.data.credits,
+        tags: doc.data.tags,
+        date: doc.data.date,
+        launch_site_text: doc.data.launch_site_text,
+        launch_site_link: doc.data.launch_site_link,
+        launch_site_background: doc.data.launch_site_background, 
+        launch_site_text1: doc.data.launch_site_text1, 
         openingFromHome,
         isHome,
         next,

@@ -4,7 +4,7 @@
   &--fadeIn {
     opacity: 0;
     transform: translateZ(0);
-    transition: 600ms opacity $ease-decel 100ms;
+    transition: 1000ms opacity $ease-accel 300ms;
 
     &.-enabled {
       opacity: 1;

@@ -31,8 +31,8 @@ const CursorAnchor = ({ children, onClick, detached, textId, className }) => {
   if (!isMobile()) {
     return (
       <div
-        onMouseEnter={enableCursor}
-        onMouseLeave={disableCursor}
+        // onMouseEnter={enableCursor}
+        // onMouseLeave={disableCursor}
         onClick={handleClick}
         className={`${className || ''} cursorAnchor ${
           enabled ? '-hovered' : ''

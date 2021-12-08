@@ -15,8 +15,8 @@ export default function WaypointAnim({ name, className, children, disabled }) {
     <Waypoint
       onEnter={() => setVisible(true)}
       onLeave={() => setVisible(false)}
-      topOffset="0px"
-      bottomOffset="0px"
+      topOffset="100px"
+      bottomOffset="100px"
     >
       <div className={!disabled ? classNames : className}>{children}</div>
     </Waypoint>

@@ -26,7 +26,7 @@ function Router() {
             />
           )}
         />
-        <Route exact path="/work/" render={() => <Layout view="work" />} />
+        <Route exact path="/shop/" render={() => <Layout view="shop" />} />
         <Route exact path="/about/" render={() => <Layout view="about" />} />
         <Route
           exact

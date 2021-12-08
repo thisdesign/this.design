@@ -9,6 +9,9 @@ export const PlayerCtx = createContext()
 
 const VideoNode = memo(
   ({ url, autoPlay, poster, controls, muteToggle, playing }) => {
+
+    const attr = {playsInline: autoPlay}
+
     return (
       // Pass props here like muted etc
       <Styled.VideoProvider
