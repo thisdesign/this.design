@@ -16,15 +16,16 @@ async function getContextUids() {
 async function buildSitemap() {
   const UIDS = await getContextUids()
   const sitemap = createSitemap({
-    hostname: 'http://this.design',
+    hostname: 'https://this.design',
     urls: [
+      { url: '/' },
       { url: '/work' },
       { url: '/about' },
       ...UIDS.map(uid => ({ url: `/${uid}` })),
     ],
   })
   const xml = sitemap.toXML()
-  fs.writeFile('public/sitemap.xml', xml)
+  fs.writeFileSync('public/sitemap.xml', xml)
   console.log('sitemap built...')
 }
 

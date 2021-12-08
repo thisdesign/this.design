@@ -34,7 +34,7 @@ function Work() {
 
   const { contextCaseStudies, home } = useContext(ApiDataCtx)
   const { launchProject, filters } = useContext(LayoutContext)
-  const [caseStudies, setCaseStudies] = useState(contextCaseStudies)
+  const [caseStudies] = useState(contextCaseStudies)
 
   const coords = { minX: 0, maxX: 0, minY: 0, maxY: 0 }
   for(let i=0; i < caseStudies.length + 1; i++) {
@@ -125,6 +125,7 @@ function Work() {
           }
         }
       })
+      // eslint-disable-next-line
     }, [])
 
     const expandAnimation = (top, left) => {
@@ -305,7 +306,7 @@ const WorkList = ({items}) => {
     <div className="work__list">
       <div className="work__list__filter">
         <button>Show All</button>
-        <img className="work__list__filter__icon" src={FilterSvg} onClick={() => {
+        <img className="work__list__filter__icon" src={FilterSvg} alt="" onClick={() => {
           setFilters({
             ...filters,
             active: true,
@@ -356,7 +357,6 @@ const WorkReelModal = ({setShowModal, video}) => {
   useEffect(() => {
     if(windowSize.width !== undefined) {
       const rect = containerRef.current.getBoundingClientRect()
-      const rectWidth = rect.width
       const rectHeight = rect.height
 
       let maxWidth = windowSize.width > 1920 ? 1920 : windowSize.width

@@ -9,9 +9,9 @@ const Nav = () => {
     setMobileMenu,
   } = useContext(LayoutContext)
 
-  const handleClick = () => {
-    setMobileMenu(false)
-  }
+  // const handleClick = () => {
+  //   setMobileMenu(false)
+  // }
 
   return (
     <nav className={`mobile-menu`}>
@@ -22,10 +22,10 @@ const Nav = () => {
         <li><Link to='/about' onClick={() => {
           setMobileMenu(false)
         }}>About</Link></li>
-        <li><a href='https://thisllc.myshopify.com' target="_blank" onClick={() => {
+        <li><a href='https://thisllc.myshopify.com' target="_blank" rel="noopener noreferrer" onClick={() => {
           setMobileMenu(false)
         }}>Shop</a></li>
-        <li><a href='mailto:toby@this.design' onClick={() => {
+        <li><a href='mailto:look@this.design' onClick={() => {
           setMobileMenu(false)
         }}>Contact</a></li>
       </ul>

@@ -8,13 +8,13 @@ const CursorAnchor = ({ children, onClick, detached, textId, className }) => {
   const { updateCursor } = useContext(CursorContext)
   const [enabled, handleHover] = useState(false)
 
-  const enableCursor = () => {
-    handleHover(true)
-    updateCursor({
-      enabled: true,
-      icon: detached && textId,
-    })
-  }
+  // const enableCursor = () => {
+  //   handleHover(true)
+  //   updateCursor({
+  //     enabled: true,
+  //     icon: detached && textId,
+  //   })
+  // }
 
   const disableCursor = () => {
     updateCursor({ enabled: false, icon: null })

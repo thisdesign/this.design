@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { RichText } from 'prismic-reactjs'
+import React from 'react'
 import './IconLink.scss'
 
 const IconLink = ({type, url, children}) => {

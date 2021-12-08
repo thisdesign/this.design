@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import ResponsiveImage from 'components/ResponsiveImage/ResponsiveImage'
-import { CsContext } from 'containers/CaseStudy/CaseStudy'
 import PropTypes from 'prop-types'
 import Styled from './styled'
 
@@ -8,8 +7,6 @@ const Image = (props) => {
 
   const fullscreen = false
   const offset = 0
-
-  console.log(props)
 
   const { src, responsiveUrls } = props
   const classnames = props?.props?.data?.primary?.class_names

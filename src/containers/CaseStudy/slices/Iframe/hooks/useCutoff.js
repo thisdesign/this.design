@@ -21,6 +21,7 @@ export default function useCutoff(cutoff) {
     return () => {
       window.removeEventListener('resize', calc)
     }
+    // eslint-disable-next-line
   }, [])
 
   return { ref, visible: !isCutoff }

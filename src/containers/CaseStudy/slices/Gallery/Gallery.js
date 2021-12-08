@@ -18,6 +18,7 @@ const useTimer = ({ slide, setNext, animating }) => {
     return () => {
       if (interval) clearInterval(interval)
     }
+    // eslint-disable-next-line
   }, [slide, animating])
 }
 

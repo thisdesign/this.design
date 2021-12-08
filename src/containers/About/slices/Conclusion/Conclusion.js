@@ -18,7 +18,7 @@ const Conclusion = (props) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img src={ONE_PERCENT_LOGO} />
+          <img src={ONE_PERCENT_LOGO} alt="" />
         </a>
       </div>
     </div>

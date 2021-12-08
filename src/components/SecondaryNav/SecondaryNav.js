@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutContext } from 'containers/Layout/Layout'
 import './SecondaryNav.scss'
@@ -15,14 +15,14 @@ const SecondaryNav = () => {
   } = context
   
 
-  const linkTo = link => {
-    if (view === 'root') {
-      return `/${link}`
-    } if (currentUid) {
-      return `/work/${currentUid}`
-    }
-    return '/'
-  }
+  // const linkTo = link => {
+  //   if (view === 'root') {
+  //     return `/${link}`
+  //   } if (currentUid) {
+  //     return `/work/${currentUid}`
+  //   }
+  //   return '/'
+  // }
 
   const navState = [
     navInverted && view === 'root' ? 'nav--dark' : '',

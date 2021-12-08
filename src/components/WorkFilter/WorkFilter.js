@@ -4,7 +4,7 @@ import { ApiDataCtx } from 'containers/App/App'
 
 import './WorkFilter.scss'
 
-const WorkFilters = ({}) => {
+const WorkFilters = () => {
 
   const { filters, setFilters } = useContext(LayoutContext)
   const { contextCaseStudies } = useContext(ApiDataCtx)
@@ -72,6 +72,7 @@ const WorkFilters = ({}) => {
       ...filters,
       tags: newTags
     })
+    // eslint-disable-next-line
   },[tags])
 
   return (

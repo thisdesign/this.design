@@ -3,7 +3,6 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Redirect,
   matchPath,
 } from 'react-router-dom'
 import { ApiDataCtx } from '../App/App'
@@ -26,7 +25,7 @@ function Router() {
             />
           )}
         />
-        <Route exact path="/shop/" render={() => <Layout view="shop" />} />
+        {/* <Route exact path="/shop/" render={() => <Layout view="shop" />} /> */}
         <Route exact path="/about/" render={() => <Layout view="about" />} />
         <Route
           exact

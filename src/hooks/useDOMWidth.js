@@ -9,6 +9,7 @@ export default function useDOMWidth(ref) {
     () => {
       setWidth(ref.current.offsetWidth)
     },
+    // eslint-disable-next-line
     [windowWidth]
   )
 

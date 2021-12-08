@@ -6,7 +6,7 @@ import './CaseStudy.scss'
 import Styled from './styled'
 import Posed, { getPose } from './posed'
 import Partials from './partials/index'
-import _getContextProps, { _contextPropTypes } from './util/_getContextProps'
+import _getContextProps from './util/_getContextProps'
 import { CaseStudyDoc } from 'types'
 
 /**

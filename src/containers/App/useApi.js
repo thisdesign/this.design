@@ -43,6 +43,7 @@ export default function useApi({ context }) {
 
   useEffect(() => {
     getData()
+    // eslint-disable-next-line
   }, [])
 
   return state

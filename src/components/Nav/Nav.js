@@ -1,10 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutContext } from 'containers/Layout/Layout'
-import CursorAnchor from 'components/CursorDot/CursorAnchor'
-import GridIcon from './GridIcon/GridIcon'
 import AboutIcon from './AboutIcon/AboutIcon'
-import * as ReactRouter from "react-router"
 import './Nav.scss'
 
 const Nav = () => {
@@ -33,7 +30,7 @@ const Nav = () => {
     `-view-is-${view}`, currentUid ? 'is-subpage' : ''
   ].join(' ')
 
-  const closeActive = (view !== 'root' || mobileMenu)
+  // const closeActive = (view !== 'root' || mobileMenu)
 
   return (
     <>
@@ -76,7 +73,7 @@ const Nav = () => {
           </Link>
         </div>
         <div className={`nav__item link`}>
-          <a href='https://thisllc.myshopify.com' target="_blank">
+          <a href='https://thisllc.myshopify.com' rel="noopener noreferrer" target="_blank">
             <span>SHOP</span>
           </a>
         </div>

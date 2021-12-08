@@ -12,7 +12,7 @@ const mobile = isMobile()
 const Cover = () => {
   const context = useContext(CsContext)
 
-  const { header, tags, date, credits, launch_site_text, launch_site_link, launch_site_background, launch_site_text1, svg, next, csTransitioning, dark, isHome } = context
+  const { header, tags, date, credits, launch_site_text, launch_site_link, launch_site_background, launch_site_text1, svg, next, csTransitioning } = context
   const [panel, setPanel] = useState(false)
 
   const togglePanel = () => {

@@ -13,6 +13,7 @@ export default function useAutoplay(shouldPlay) {
         video.ref.current.removeAttribute("playsinline");
       }
     },
+    // eslint-disable-next-line
     [shouldPlay]
   )
 }

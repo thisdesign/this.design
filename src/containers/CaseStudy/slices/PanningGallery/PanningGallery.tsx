@@ -49,6 +49,7 @@ const PanningGallery: React.FC<{ data: PanningGallery }> = ({ data }) => {
 
       flickity.current = flkty
     }
+    // eslint-disable-next-line
   }, [])
 
   const xBounds = useRef({
@@ -92,6 +93,7 @@ const PanningGallery: React.FC<{ data: PanningGallery }> = ({ data }) => {
         flkty.select(flkty.selectedIndex + indexChange, true)
       })
     }
+    // eslint-disable-next-line
   }, [flickity.current])
 
   const handleCursor = (x: number, y: number) => {
@@ -137,7 +139,7 @@ const PanningGallery: React.FC<{ data: PanningGallery }> = ({ data }) => {
                 width={data.primary.cell_width}
                 className="js-imagewrapper"
               >
-                <img src={item.image.url} />
+                <img src={item.image.url} alt=""/>
               </S.ImageWrapper>
             )
         )}
