@@ -39,6 +39,7 @@
     "viewport-units-buggyfill": "^0.6.2"
   },
   "devDependencies": {
+    "@interactjs/types": "^1.8.3",
     "@tylermcrobert/eslint-config": "^1.0.0",
     "@types/react-router-dom": "^5.3.2",
     "eslint": "^6.8.0",
