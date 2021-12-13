@@ -365,10 +365,13 @@ $itemHeight: 450px;
 
   opacity: 0;
   transform: translateY(50px);
+  @media (max-width: 475px) {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 75px);
+  }
   position: relative;
-  width: 100%;
   top: 50px;
-  height: calc(100vh - 75px);
   display: block;
   text-align: center;
   cursor: pointer;
@@ -400,11 +403,13 @@ $itemHeight: 450px;
   transform: translateY(50px);
   transition: .4s ease-out;
   opacity: 0;
-  
-  position: relative;
-  width: 100%;
   top: 50px;
-  height: calc(100vh - 75px);
+  
+  @media (max-width: 475px) {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 75px);
+  }
 
   @media (min-width: 476px) {
     position: absolute;

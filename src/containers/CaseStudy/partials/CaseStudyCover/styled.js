@@ -14,17 +14,19 @@ const zIndex = {
 Styled.Logo = styled.img`
   width: 140px;
   position: absolute;
-  bottom: 65%;
+  bottom: 130px;
+  transform: translateY(calc(-50vh));
   @media (max-width: 475px) {
+    top: unset;
     bottom: 45%;
   }
   transition: transform 600ms ${({ theme }) => theme.ease.standard};
   ${({ next, csTransitioning }) => {
     if (next && !csTransitioning) {
       return css`
-        transform: translateY(40vh);
+        transform: translateY(0);
         @media (max-width: 475px) {
-          transform: translateY(25vh);
+          transform: translateY(0);
         }
       `
     }
