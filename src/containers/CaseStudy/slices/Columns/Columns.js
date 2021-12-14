@@ -22,7 +22,7 @@ const Columns = ({
     <Styled.Media speed={-90} key="media">
       <MediaWrapper layout={layout} shadowOpacity={shadowOpacity}>
         {videoUrl ? (
-          <WaypointVideo muteToggle={hasMute} url={videoUrl} />
+          <WaypointVideo muteToggle={hasMute} url={videoUrl} poster={imageUrl}/>
         ) : (
           <img src={imageUrl} alt={alt} />
         )}

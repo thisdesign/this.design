@@ -19,6 +19,7 @@ const VideoNode = memo(
         // loop if controls aren't present
         loop={!controls}
         muted={!controls}
+        autoplay={autoPlay}
       >
         <Player
           shouldPlay={playing}

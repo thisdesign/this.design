@@ -121,14 +121,11 @@ const csState = useRouterData({ pathUid })
           <Nav />
           <SecondaryNav />
           <main className={`views -view-is-${view}`}>
-            <View viewName="root" view={view} filterActive={filters.active}>
-              <Root {...{ projectLaunchStatus }} />
-            </View>
-            <View aside viewName="shop" view={view} filterActive={filters.active}>
-              <Shop />
-            </View>
             <View aside viewName="about" view={view} filterActive={filters.active}>
               <About />
+            </View>
+            <View viewName="root" view={view} filterActive={filters.active}>
+              <Root {...{ projectLaunchStatus }} />
             </View>
           </main>
         </LayoutContext.Provider>

@@ -17,8 +17,11 @@ Styled.Logo = styled.img`
   bottom: 130px;
   transform: translateY(calc(-50vh));
   @media (max-width: 475px) {
-    top: unset;
-    bottom: 45%;
+    
+    transform: translateY(calc(-50vh + 140px));
+    // top: unset;
+    // transform: translateY(0);
+    // bottom: 45%;
   }
   transition: transform 600ms ${({ theme }) => theme.ease.standard};
   ${({ next, csTransitioning }) => {
@@ -45,7 +48,7 @@ Styled.Cover = styled.div`
 
 Styled.Fill = styled.div`
   background-color: ${({ backgroundColor }) => backgroundColor || '#161616'};
-  height: 100vh;
+  height: var(--windowHeight);
   left: 0;
   position: absolute;
   top: 0;

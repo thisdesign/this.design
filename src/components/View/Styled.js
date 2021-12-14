@@ -12,7 +12,7 @@ const View = styled.div`
   will-change: transform;
   width: 100%;
   -webkit-overflow-scrolling: touch;
-  z-index: ${props => (props.aside ? 10 : 20)};
+  z-index: ${props => (props.aside ? 'unset' : 20)};
   background-color: ${props =>
     (props.viewName === 'about' && props.activeView === 'about' && 'transparent') ||
     (props.viewName === 'about' && 'black') ||
