@@ -43,7 +43,7 @@
     "@tylermcrobert/eslint-config": "^1.0.0",
     "@types/react-router-dom": "^5.3.2",
     "eslint": "^6.8.0",
-    "react-scripts": "^3.3.0"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
