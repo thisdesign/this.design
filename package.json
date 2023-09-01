@@ -50,6 +50,7 @@
     "legacy": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "sitemap": "node sitemap.js",
     "build": "npm run sitemap && react-scripts build",
+    "build-legacy": "npm run sitemap && NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "npm run build"
