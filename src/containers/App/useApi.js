@@ -11,23 +11,23 @@ export default function useApi({ context }) {
       .query([Prismic.Predicates.at('document.type', 'casestudy')], {
         pageSize: 100,
       })
-      .then(res => res.results)
-
-      console.log(caseStudies)
+      .then((res) => res.results)
 
     const contextUids = await api
       .getByUID('context', context || 'home')
-      .then(doc => doc)
-      .then(res => res.data.case_study_list.map(cs => cs.case_study_item.uid))
+      .then((doc) => doc)
+      .then((res) =>
+        res.data.case_study_list.map((cs) => cs.case_study_item.uid)
+      )
 
     const contextCaseStudies = contextUids.map(
-      uid => caseStudies[caseStudies.map(data => data.uid).indexOf(uid)]
+      (uid) => caseStudies[caseStudies.map((data) => data.uid).indexOf(uid)]
     )
 
-    const caseStudyUids = caseStudies.map(cs => cs.uid)
-    const home = await api.getSingle('home').then(doc => doc.data)
-    const siteInfo = await api.getSingle('site').then(doc => doc.data)
-    const about = await api.getSingle('about').then(doc => doc.data)
+    const caseStudyUids = caseStudies.map((cs) => cs.uid)
+    const home = await api.getSingle('home').then((doc) => doc.data)
+    const siteInfo = await api.getSingle('site').then((doc) => doc.data)
+    const about = await api.getSingle('about').then((doc) => doc.data)
 
     setState({
       caseStudyUids,

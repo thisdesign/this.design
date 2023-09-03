@@ -1,30 +1,46 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+import ViewportApp from 'lib/ViewportApp'
 
-import { Application, Assets, Sprite } from 'pixi.js';
+import * as PIXI from 'pixi.js'
+import { ApiDataCtx } from 'containers/App/App'
+import { GRID_CONFIG } from './Coordinates'
 
-export default function WorkDesktop() {
-  
-  const app = new Application({
-    backgroundAlpha: 0.5,
-    autoResize: true,
-    resolution: devicePixelRatio
-  });
+export default function WorkDesktop({}) {
+  const { contextCaseStudies } = useContext(ApiDataCtx)
+
+  // ViewportApp.create(contextCaseStudies)
+
+  // contextCaseStudies.forEach((caseStudy, i) => {
+  //   const point = GRID_CONFIG[i]
+
+  //   const item = new PIXI.Container()
+  //   item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0]
+  //   item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1]
+
+  //   //create bg
+  //   const bg = new PIXI.Graphics()
+  //   bg.beginFill(0xffffff)
+  //   bg.drawRoundedRect(
+  //     -ITEM_WIDTH * 0.5,
+  //     -ITEM_HEIGHT * 0.5,
+  //     ITEM_WIDTH,
+  //     ITEM_HEIGHT,
+  //     20
+  //   )
+  //   bg.endFill()
+  //   item.addChild(bg)
+
+  //   //add to stage
+  //   app.stage.addChild(item)
+  // })
 
   const el = useRef()
   useEffect(() => {
+    const app = ViewportApp.init()
     el.current.appendChild(app.view)
-  },[el])
+    ViewportApp.create(contextCaseStudies)
+    ViewportApp.start()
+  }, [el])
 
-  return <div ref={r => el.current = r}></div>
+  return <div ref={(r) => (el.current = r)}></div>
 }
-
-// Listen for window resize events
-// window.addEventListener('resize', resize);
-
-// Resize function window
-// function resize() {
-// 	app.renderer.resize(window.innerWidth, window.innerHeight);
-//   rect.position.set(app.screen.width, app.screen.height);
-// }
-
-// resize();

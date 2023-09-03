@@ -138,8 +138,6 @@ const HeadMeta = () => {
   const { isHome, next, meta } = context
   const { currentUid } = useContext(LayoutContext).csState
 
-  console.log('case study', context)
-
   if (!isHome && !next) {
     return (
       !isHome &&

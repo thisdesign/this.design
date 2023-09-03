@@ -5,8 +5,6 @@ import { LayoutContext } from 'containers/Layout/Layout'
 import { Link, withRouter } from 'react-router-dom'
 
 import useWindowSize from 'util/useWindowSize'
-import { GRID_CONFIG } from './Coordinates'
-import interact from 'interactjs'
 
 import { RichText } from 'prismic-reactjs'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -18,10 +16,6 @@ import 'swiper/scss'
 import './Work.scss'
 import WorkDesktop from './WorkDesktop'
 
-const GRID_MARGIN = 30
-const ITEM_WIDTH = 215
-const ITEM_HEIGHT = 450
-
 function Work() {
   const windowSize = useWindowSize()
   const [shouldBeVisible, setShouldBeVisible] = useState(false)
@@ -30,16 +24,6 @@ function Work() {
   const { contextCaseStudies, home } = useContext(ApiDataCtx)
   const { launchProject, filters } = useContext(LayoutContext)
   const [caseStudies] = useState(contextCaseStudies)
-
-  const coords = { minX: 0, maxX: 0, minY: 0, maxY: 0 }
-  for (let i = 0; i < caseStudies.length + 1; i++) {
-    const point = GRID_CONFIG[i]
-    if (point[0] < coords.minX) coords.minX = point[0]
-    if (point[0] > coords.maxX) coords.maxX = point[0]
-    if (point[1] < coords.minY) coords.minY = point[1]
-    if (point[1] > coords.maxY) coords.maxY = point[1]
-  }
-
   return (
     <div className="work-overflow">
       <div

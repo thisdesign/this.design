@@ -17,6 +17,8 @@
 .env.production.local
 .notes
 
+.npmrc
+
 app-env
 
 npm-debug.log*
