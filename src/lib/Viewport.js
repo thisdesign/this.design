@@ -1,6 +1,7 @@
 import { Viewport } from 'pixi-viewport'
 import { Graphics } from 'pixi.js'
 import CustomDrag from './CustomDrag'
+import CustomMouseMove from './CustomMouseMove'
 
 let viewport
 
@@ -30,40 +31,40 @@ export function create(
   })
 
   viewport
-    // .drag({
-    //   // direction: 'all',                // (x, y, or all) direction to drag
-    //   // pressDrag: true,                 // whether click to drag is active
-    //   // wheel: true,                     // use wheel to scroll in direction (unless wheel plugin is active)
-    //   // wheelScroll: 1,                  // number of pixels to scroll with each wheel spin
-    //   // reverse: false,                  // reverse the direction of the wheel scroll
-    //   // clampWheel: false,               // clamp wheel (to avoid weird bounce with mouse wheel)
-    //   // underflow: 'center',             // (top-left, top-center, etc.) where to place world if too small for screen
-    //   // factor: 1,                       // factor to multiply drag to increase the speed of movement
-    //   // mouseButtons: 'all',             // changes which mouse buttons trigger drag, use: 'all', 'left', right' 'middle', or some combination, like, 'middle-right'; you may want to set viewport.options.disableOnContextMenu if you want to use right-click dragging
-    //   // keyToPress: null,                // array containing https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code codes of keys that can be pressed for the drag to be triggered, e.g.: ['ShiftLeft', 'ShiftRight'}
-    //   // ignoreKeyToPressOnTouch: false,  // ignore keyToPress for touch events
-    //   // lineHeight: 20,                  // scaling factor for non-DOM_DELTA_PIXEL scrolling events (used for firefox mouse scrolling)
-    // })
-    // .decelerate({
-    //   // friction: 0.96, // percent to decelerate after movement
-    //   // bounce: 0.96, // percent to decelerate when past boundaries (only applicable when viewport.bounce() is active)
-    //   // minSpeed: 0.05, // minimum velocity before stopping/reversing acceleration
-    // })
-    .pinch({
-      // noDrag: false,               // disable two-finger dragging
-      // percent: 1,                  // percent to modify pinch speed
-      // factor: 1,                   // factor to multiply two-finger drag to increase the speed of movement
-      // center: null,                // place this point at center during zoom instead of center of two fingers
-      // axis: 'all',                 // axis to zoom
-    })
-    .wheel({
-      percent: 0.1, // smooth the zooming by providing the number of frames to zoom between wheel spins
-      // interrupt: true,             // stop smoothing with any user input on the viewport
-      // reverse: false,              // reverse the direction of the scroll
-      // center: null,                // place this point at center during zoom instead of current mouse position
-      // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
-      // axis: 'all',                 // axis to zoom
-    })
+  // .drag({
+  //   // direction: 'all',                // (x, y, or all) direction to drag
+  //   // pressDrag: true,                 // whether click to drag is active
+  //   // wheel: true,                     // use wheel to scroll in direction (unless wheel plugin is active)
+  //   // wheelScroll: 1,                  // number of pixels to scroll with each wheel spin
+  //   // reverse: false,                  // reverse the direction of the wheel scroll
+  //   // clampWheel: false,               // clamp wheel (to avoid weird bounce with mouse wheel)
+  //   // underflow: 'center',             // (top-left, top-center, etc.) where to place world if too small for screen
+  //   // factor: 1,                       // factor to multiply drag to increase the speed of movement
+  //   // mouseButtons: 'all',             // changes which mouse buttons trigger drag, use: 'all', 'left', right' 'middle', or some combination, like, 'middle-right'; you may want to set viewport.options.disableOnContextMenu if you want to use right-click dragging
+  //   // keyToPress: null,                // array containing https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code codes of keys that can be pressed for the drag to be triggered, e.g.: ['ShiftLeft', 'ShiftRight'}
+  //   // ignoreKeyToPressOnTouch: false,  // ignore keyToPress for touch events
+  //   // lineHeight: 20,                  // scaling factor for non-DOM_DELTA_PIXEL scrolling events (used for firefox mouse scrolling)
+  // })
+  // .decelerate({
+  //   // friction: 0.96, // percent to decelerate after movement
+  //   // bounce: 0.96, // percent to decelerate when past boundaries (only applicable when viewport.bounce() is active)
+  //   // minSpeed: 0.05, // minimum velocity before stopping/reversing acceleration
+  // })
+  // .pinch({
+  // noDrag: false,               // disable two-finger dragging
+  // percent: 1,                  // percent to modify pinch speed
+  // factor: 1,                   // factor to multiply two-finger drag to increase the speed of movement
+  // center: null,                // place this point at center during zoom instead of center of two fingers
+  // axis: 'all',                 // axis to zoom
+  // })
+  // .wheel({
+  //   percent: 0.1, // smooth the zooming by providing the number of frames to zoom between wheel spins
+  // interrupt: true,             // stop smoothing with any user input on the viewport
+  // reverse: false,              // reverse the direction of the scroll
+  // center: null,                // place this point at center during zoom instead of current mouse position
+  // lineHeight: 20,	            // scaling factor for non-DOM_DELTA_PIXEL scrolling events
+  // axis: 'all',                 // axis to zoom
+  // })
 
   // viewport.bounce({
   //   //     sides: 'all',                // all, horizontal, vertical, or combination of top, bottom, right, left(e.g., 'top-bottom-right')
@@ -92,18 +93,18 @@ export function create(
   //     right: false,               // whether to clamp to the right and at what value
   //     top: false,                 // whether to clamp to the top and at what value
   //     bottom: false,              // whether to clamp to the bottom and at what value
-  //     direction: 'all',           // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
-  //     underflow: 'center',	       // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
+  // direction: 'all', // (all, x, or y) using clamps of [0, viewport.worldWidth / viewport.worldHeight]; replaces left / right / top / bottom if set
+  // underflow: 'center', // where to place world if too small for screen (e.g., top - right, center, none, bottomleft)
   // })
 
-  viewport.clampZoom({
-    minWidth: viewport.worldWidth * 0.75, // minimum width
-    // minHeight: viewport.worldHeight, // minimum height
-    maxWidth: viewport.worldWidth, // maximum width
-    // maxHeight: viewport.worldHeight * 1.25, // maximum height
-    // minScale: null,                 // minimum scale
-    // maxScale: null,                 // minimum scale
-  })
+  // viewport.clampZoom({
+  // minWidth: viewport.worldWidth, // minimum width
+  // minHeight: viewport.worldHeight, // minimum height
+  // maxWidth: viewport.worldWidth, // maximum width
+  // maxHeight: viewport.worldHeight * 1.25, // maximum height
+  // minScale: null,                 // minimum scale
+  // maxScale: null,                 // minimum scale
+  // })
 
   // target.start()  // starts the target moving
   // viewport.follow(target.get(), {
@@ -150,6 +151,7 @@ export function create(
   //     noMove: false,              // zoom but do not move
   // })
 
+  CustomMouseMove.create(viewport)
   CustomDrag.createDrag(viewport)
 
   return viewport

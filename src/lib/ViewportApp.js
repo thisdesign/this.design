@@ -1,6 +1,11 @@
+import { gsap, InertiaPlugin, PixiPlugin } from 'gsap/all'
+gsap.registerPlugin(InertiaPlugin)
+gsap.registerPlugin(PixiPlugin)
+
 import * as PIXI from 'pixi.js'
 import Viewport from './Viewport'
 import { createCards, worldBounds } from './ViewportCards'
+import CustomMouseMove from './CustomMouseMove'
 
 let app
 
@@ -35,14 +40,11 @@ export function create(caseStudies) {
 
   viewport.addChild(cards)
 
-  const line = viewport.addChild(new PIXI.Graphics())
-  line
-    .lineStyle(10, 0xff0000)
-    .drawRect(0, 0, viewport.worldWidth, viewport.worldHeight)
-
   // move to the right spot
-  viewport.moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2)
+  viewport.moveCenter(cards.position.x, cards.position.y)
   // viewport.fit(true)
+
+  CustomMouseMove.enable()
 
   window.onresize = () => {
     app.renderer.resize(window.innerWidth, window.innerHeight)

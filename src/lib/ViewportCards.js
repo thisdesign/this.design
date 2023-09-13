@@ -1,4 +1,5 @@
 import { GRID_CONFIG } from 'components/Work/Coordinates'
+import gsap from 'gsap/all'
 import * as PIXI from 'pixi.js'
 
 const GRID_MARGIN = 30
@@ -41,14 +42,41 @@ function createCard(caseStudy, cardIndex) {
   matrix.translate(-((imageDimensions.width * scale) / 2), 0)
 
   //create bg
-  const bg = new PIXI.Graphics()
-  bg.beginTextureFill({
+  const bgImage = new PIXI.Graphics()
+  bgImage.beginTextureFill({
     texture,
     matrix,
   })
-  bg.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 20)
-  bg.endFill()
-  item.addChild(bg)
+  bgImage.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
+  bgImage.endFill()
+  item.addChild(bgImage)
+
+  //create bg
+  const bgOverlay = new PIXI.Graphics()
+  bgOverlay.beginFill(0x000000)
+  bgOverlay.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
+  bgOverlay.endFill()
+  bgOverlay.alpha = 0
+  item.addChild(bgOverlay)
+
+  item.interactive = true
+  item.buttonMode = true
+  item.cursor = 'pointer'
+
+  item.on('mouseover', function (e) {
+    gsap.to(bgOverlay, {
+      alpha: 0.2,
+      duration: 0.5,
+      overwrite: true,
+    })
+  })
+  item.on('mouseout', function (e) {
+    gsap.to(bgOverlay, {
+      alpha: 0,
+      duration: 0.3,
+      overwrite: true,
+    })
+  })
 
   return item
 }

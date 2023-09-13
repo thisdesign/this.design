@@ -1,12 +1,9 @@
-import { gsap, InertiaPlugin, VelocityTracker, PixiPlugin } from 'gsap/all'
-gsap.registerPlugin(InertiaPlugin)
+import { gsap, VelocityTracker } from 'gsap/all'
+import CustomMouseMove from './CustomMouseMove'
 
-let xTo, yTo
+const BOUNDS_BORDER = 50
 
 export function createDrag(viewport) {
-  xTo = gsap.quickTo(viewport.position, 'x', { duration: 0.6, ease: 'power3' })
-  yTo = gsap.quickTo(viewport.position, 'y', { duration: 0.6, ease: 'power3' })
-
   viewport = viewport
   viewport
     .on('pointerdown', onDragStart)
@@ -18,6 +15,8 @@ export function createDrag(viewport) {
 }
 
 function onDragStart(event) {
+  CustomMouseMove.disable()
+
   if (this.tween) {
     this.tween.kill()
   }
@@ -30,8 +29,20 @@ function onDragMove(event) {
   if (this.lastPosition) {
     var newPosition = this.data.getLocalPosition(this.parent)
 
-    this.position.x += newPosition.x - this.lastPosition.x
-    this.position.y += newPosition.y - this.lastPosition.y
+    const newX = this.position.x + newPosition.x - this.lastPosition.x
+    const newY = this.position.y + newPosition.y - this.lastPosition.y
+
+    if (this.screenWidth < this.width) {
+      this.position.x = Math.min(
+        BOUNDS_BORDER * 2,
+        Math.max(newX, this.screenWidth - (this.width + BOUNDS_BORDER * 2))
+      )
+    }
+
+    this.position.y = Math.min(
+      BOUNDS_BORDER * 2,
+      Math.max(newY, this.screenHeight - (this.height + BOUNDS_BORDER * 2))
+    )
 
     this.lastPosition = newPosition
   }
@@ -45,22 +56,29 @@ function onDragEnd(event) {
 
   this.tween = gsap.to(this.position, {
     inertia: {
-      duration: { min: 3, max: 4 },
-      x: {
-        resistance: 500,
-        velocity: vX,
-        min: this.screenWidth - this.width,
-        max: 0,
-      },
-      y: {
-        velocity: vY,
-        resistance: 500,
-        min: this.screenHeight - this.height,
-        max: 0,
-      },
+      duration: { min: 0.5, max: 1 },
+      x:
+        this.screenWidth < this.width
+          ? {
+              resistance: 500,
+              velocity: Math.max(Math.min(1000, vX), -1000),
+              min: this.screenWidth - (this.width + BOUNDS_BORDER),
+              max: BOUNDS_BORDER,
+            }
+          : {},
+      y:
+        this.screenWidth < this.height
+          ? {
+              velocity: Math.max(Math.min(1000, vY), -1000),
+              resistance: 500,
+              min: this.screenHeight - (this.height + BOUNDS_BORDER),
+              max: BOUNDS_BORDER,
+            }
+          : {},
     },
     onComplete: () => {
       this.tween = null
+      CustomMouseMove.enable()
     },
   })
 }
