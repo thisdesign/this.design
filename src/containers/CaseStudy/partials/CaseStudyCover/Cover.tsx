@@ -61,7 +61,7 @@ const Cover = () => {
               <div className={`casestudy__toggle ${hidePanelClass} ${panel ? 'active' : ''}`}  onClick={() => togglePanel()}></div>
             </div>
             {launch_site_text && launch_site_link && 
-              <a href={launch_site_link.url} style={colorStyles}>
+              <a href={launch_site_link.url} style={colorStyles} target='_blank' rel="noopener noreferrer">
                 {launch_site_text}
               </a>}
           </div>

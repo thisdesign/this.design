@@ -4,7 +4,6 @@ import { LayoutContext } from 'containers/Layout/Layout'
 import './SecondaryNav.scss'
 
 const SecondaryNav = () => {
-  
   const context = useContext(LayoutContext)
   const {
     view,
@@ -13,7 +12,6 @@ const SecondaryNav = () => {
     setFilters,
     csState: { currentUid },
   } = context
-  
 
   // const linkTo = link => {
   //   if (view === 'root') {
@@ -26,7 +24,8 @@ const SecondaryNav = () => {
 
   const navState = [
     navInverted && view === 'root' ? 'nav--dark' : '',
-    `-view-is-${view}`, currentUid ? 'is-subpage' : ''
+    `-view-is-${view}`,
+    currentUid ? 'is-subpage' : '',
   ].join(' ')
 
   return (
@@ -38,10 +37,16 @@ const SecondaryNav = () => {
           </Link>
         </div>
         <div className={`secondaryNav__item filter`}>
-          <button onClick={() => setFilters({
-            ...filters,
-            active: true
-          })}>Filter</button>
+          <button
+            onClick={() =>
+              setFilters({
+                ...filters,
+                active: true,
+              })
+            }
+          >
+            <span>Filter</span>
+          </button>
         </div>
       </div>
     </nav>
