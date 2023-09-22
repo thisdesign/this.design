@@ -18,12 +18,18 @@ import WorkDesktop from './WorkDesktop'
 
 function Work() {
   const windowSize = useWindowSize()
-  const [shouldBeVisible, setShouldBeVisible] = useState(false)
+  const [shouldBeVisible, setShouldBeVisible] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
   const { contextCaseStudies, home } = useContext(ApiDataCtx)
   const { launchProject, filters } = useContext(LayoutContext)
   const [caseStudies] = useState(contextCaseStudies)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setShouldBeVisible(true)
+    }, 250)
+  }, [])
   return (
     <div className="work-overflow">
       <div

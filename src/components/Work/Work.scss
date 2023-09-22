@@ -1,6 +1,37 @@
 @import '../../styles/variables.scss';
 @import '../../styles/breakpoints.scss';
 
+.work-transition {
+
+  --image-height-start: 600px;
+	--image-width-end: 215px;
+	--image-height-end: 450px;
+
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  will-change: transform;
+  background-color: blue;
+
+  .work-transition-outer {
+    will-change: transform;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .work-transition-image {
+    width: auto;
+    height: 100vh;
+    position: relative;
+  }
+}
+
 .work__expander {
   position: absolute;
   top: 0;

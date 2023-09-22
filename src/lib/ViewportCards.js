@@ -1,10 +1,13 @@
 import { GRID_CONFIG } from 'components/Work/Coordinates'
 import gsap from 'gsap/all'
 import * as PIXI from 'pixi.js'
+import emitter from 'tiny-emitter/instance'
+import Viewport from './Viewport'
 
-const GRID_MARGIN = 30
-const ITEM_WIDTH = 215
-const ITEM_HEIGHT = 450
+export const GRID_MARGIN = 30
+export const ITEM_WIDTH = 215
+export const ITEM_HEIGHT = 450
+export const ITEM_RATIO = ITEM_WIDTH / ITEM_HEIGHT
 
 export function worldBounds(cardCount) {
   const coords = { minX: 0, maxX: 0, minY: 0, maxY: 0 }
@@ -26,13 +29,32 @@ export function worldBounds(cardCount) {
   return { width, height }
 }
 
+function createVideoCard(video) {
+  const item = new PIXI.Container()
+  const bgImage = new PIXI.Graphics()
+  bgImage.beginFill(0xff0000)
+  bgImage.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
+  bgImage.endFill()
+
+  item.position.x = ITEM_WIDTH * -0.5
+  item.position.y = ITEM_HEIGHT * -0.5
+
+  item.addChild(bgImage)
+
+  item.on('click', function (e) {
+    emitter.emit('video:click', video, item.position)
+  })
+
+  return item
+}
+
 function createCard(caseStudy, cardIndex) {
   const image = caseStudy.data.thumbnail.url
   const imageDimensions = caseStudy.data.thumbnail.dimensions
 
   const texture = PIXI.Texture.from(image)
 
-  const point = GRID_CONFIG[cardIndex]
+  const point = GRID_CONFIG[cardIndex + 1]
   const item = new PIXI.Container()
   item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0] - ITEM_WIDTH / 2
   item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] - ITEM_HEIGHT / 2
@@ -59,7 +81,7 @@ function createCard(caseStudy, cardIndex) {
   bgOverlay.alpha = 0
   item.addChild(bgOverlay)
 
-  item.interactive = true
+  item.eventMode = 'static'
   item.buttonMode = true
   item.cursor = 'pointer'
 
@@ -77,15 +99,24 @@ function createCard(caseStudy, cardIndex) {
       overwrite: true,
     })
   })
+  item.on('click', function (e) {
+    const viewport = Viewport.get()
+    const position = {
+      x: item.position.x - (viewport.center.x - viewport.worldWidth / 2),
+      y: item.position.y - (viewport.center.y - viewport.worldHeight / 2),
+    }
+    emitter.emit('card:click', caseStudy, position)
+  })
 
   return item
 }
 
-export function createCards(caseStudies) {
+export function createCards(video, caseStudies) {
   const view = new PIXI.Container()
   for (var i = 0; i < caseStudies.length; i++) {
     const card = createCard(caseStudies[i], i)
     view.addChild(card)
   }
+  view.addChild(createVideoCard(video))
   return view
 }
