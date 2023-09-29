@@ -2,6 +2,7 @@ import { gsap, VelocityTracker } from 'gsap/all'
 import CustomMouseMove from './CustomMouseMove'
 
 const BOUNDS_BORDER = 50
+const MIN_DISTANCE = 5
 
 export function createDrag(viewport) {
   viewport = viewport
@@ -22,12 +23,27 @@ function onDragStart(event) {
   }
 
   this.data = event.data
+  this.distance = 0
+  this.disableClick = false
   this.lastPosition = this.data.getLocalPosition(this.parent)
 }
 
 function onDragMove(event) {
   if (this.lastPosition) {
     var newPosition = this.data.getLocalPosition(this.parent)
+
+    if (this.distance < MIN_DISTANCE) {
+      const distance = Math.sqrt(
+        Math.pow(newPosition.x - this.lastPosition.x, 2) +
+          Math.pow(newPosition.y - this.lastPosition.y, 2)
+      )
+      if (this.distance + distance >= MIN_DISTANCE) {
+        this.disableClick = true
+        this.distance = MIN_DISTANCE + 1
+      } else {
+        this.distance += distance
+      }
+    }
 
     const newX = this.position.x + newPosition.x - this.lastPosition.x
     const newY = this.position.y + newPosition.y - this.lastPosition.y

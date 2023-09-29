@@ -40,7 +40,7 @@ function Work() {
         {windowSize.width <= 475 && (
           <WorkMobile setShowModal={setShowModal} data={contextCaseStudies} />
         )}
-        {windowSize.width > 475 && <WorkDesktop />}
+        {windowSize.width > 475 && <WorkDesktop setShowModal={setShowModal} />}
       </div>
       <div id="expander" className="work__expander"></div>
       <CSSTransition

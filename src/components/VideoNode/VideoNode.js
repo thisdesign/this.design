@@ -9,7 +9,6 @@ export const PlayerCtx = createContext()
 
 const VideoNode = memo(
   ({ url, autoPlay, poster, controls, muteToggle, playing }) => {
-
     // const attr = {playsInline: autoPlay}
 
     return (
@@ -48,14 +47,11 @@ function Player({ shouldPlay, muteToggle, controlsEnabled, poster }) {
   const [hovered, setHovered] = useState()
   const [hasPlayed, setHasPlayed] = useState(false)
 
-  React.useEffect(
-    () => {
-      if (state.isPlaying) {
-        setHasPlayed(true)
-      }
-    },
-    [state.isPlaying]
-  )
+  React.useEffect(() => {
+    if (state.isPlaying) {
+      setHasPlayed(true)
+    }
+  }, [state.isPlaying])
 
   useAutoplay(shouldPlay)
 
@@ -99,7 +95,7 @@ function Player({ shouldPlay, muteToggle, controlsEnabled, poster }) {
           {controlsEnabled && <Controls />}
         </Styled.ControlWrapper>
         <Styled.VideoWrapper
-          poster={!hasPlayed && poster}
+          poster={!hasPlayed ? poster : 'false'}
           hasPayed={hasPlayed}
           onClick={handleClick}
         >

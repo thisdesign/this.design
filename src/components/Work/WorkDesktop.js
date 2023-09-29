@@ -3,9 +3,9 @@ import ViewportApp from 'lib/ViewportApp'
 import { ApiDataCtx } from 'containers/App/App'
 import emmiter from 'tiny-emitter/instance'
 
-export default function WorkDesktop({}) {
+export default function WorkDesktop({ setShowModal }) {
   emmiter.on('video:click', function (video, position) {
-    console.log('video', video, position)
+    setShowModal(true)
   })
 
   const { contextCaseStudies, home } = useContext(ApiDataCtx)

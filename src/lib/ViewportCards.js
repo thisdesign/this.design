@@ -4,6 +4,8 @@ import * as PIXI from 'pixi.js'
 import emitter from 'tiny-emitter/instance'
 import Viewport from './Viewport'
 
+import PlaySvg from './../components/Work/Play.svg'
+
 export const GRID_MARGIN = 30
 export const ITEM_WIDTH = 215
 export const ITEM_HEIGHT = 450
@@ -30,9 +32,27 @@ export function worldBounds(cardCount) {
 }
 
 function createVideoCard(video) {
+  let texture = PIXI.Texture.from(video.video.url)
+  texture.baseTexture.resource.source.loop = true
+  texture.baseTexture.resource.source.muted = true
+
+  const button = PIXI.Sprite.from(PlaySvg)
+  button.anchor.set(0.5)
+  button.position.x = ITEM_WIDTH / 2
+  button.position.y = ITEM_HEIGHT / 2
+
+  const scale = ITEM_HEIGHT / 1920
+  const translateX = (1080 * scale - ITEM_WIDTH) * 0.5
+  let matrix = new PIXI.Matrix()
+  matrix.scale(scale, scale)
+  matrix.translate(-translateX, 0)
+
   const item = new PIXI.Container()
   const bgImage = new PIXI.Graphics()
-  bgImage.beginFill(0xff0000)
+  bgImage.beginTextureFill({
+    texture,
+    matrix,
+  })
   bgImage.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
   bgImage.endFill()
 
@@ -40,6 +60,10 @@ function createVideoCard(video) {
   item.position.y = ITEM_HEIGHT * -0.5
 
   item.addChild(bgImage)
+  item.addChild(button)
+
+  item.eventMode = 'static'
+  item.cursor = 'pointer'
 
   item.on('click', function (e) {
     emitter.emit('video:click', video, item.position)
@@ -82,7 +106,6 @@ function createCard(caseStudy, cardIndex) {
   item.addChild(bgOverlay)
 
   item.eventMode = 'static'
-  item.buttonMode = true
   item.cursor = 'pointer'
 
   item.on('mouseover', function (e) {
@@ -101,11 +124,13 @@ function createCard(caseStudy, cardIndex) {
   })
   item.on('click', function (e) {
     const viewport = Viewport.get()
-    const position = {
-      x: item.position.x - (viewport.center.x - viewport.worldWidth / 2),
-      y: item.position.y - (viewport.center.y - viewport.worldHeight / 2),
+    if (!viewport.disableClick) {
+      const position = {
+        x: item.position.x - (viewport.center.x - viewport.worldWidth / 2),
+        y: item.position.y - (viewport.center.y - viewport.worldHeight / 2),
+      }
+      emitter.emit('card:click', caseStudy, position)
     }
-    emitter.emit('card:click', caseStudy, position)
   })
 
   return item
