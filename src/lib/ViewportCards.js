@@ -5,6 +5,7 @@ import emitter from 'tiny-emitter/instance'
 import Viewport from './Viewport'
 
 import PlaySvg from './../components/Work/Play.svg'
+import { asText } from 'util/helpers'
 
 export const GRID_MARGIN = 30
 export const ITEM_WIDTH = 215
@@ -73,19 +74,25 @@ function createVideoCard(video) {
 }
 
 function createCard(caseStudy, cardIndex) {
-  const image = caseStudy.data.thumbnail.url
-  const imageDimensions = caseStudy.data.thumbnail.dimensions
+  const header = caseStudy.data.header?.[0]?.image1
+  const thumbnail = caseStudy.data.thumbnail
+  const image = header?.url ? header : thumbnail
 
-  const texture = PIXI.Texture.from(image)
+  const imageUrl = image.url
+  const imageDimensions = image.dimensions
+
+  const texture = PIXI.Texture.from(imageUrl)
+
+  const scale = ITEM_HEIGHT / imageDimensions.height
+  const translateX = (imageDimensions.width * scale - ITEM_WIDTH) * 0.5
+  let matrix = new PIXI.Matrix()
+  matrix.scale(scale, scale)
+  matrix.translate(-translateX, 0)
 
   const point = GRID_CONFIG[cardIndex + 1]
   const item = new PIXI.Container()
   item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0] - ITEM_WIDTH / 2
   item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] - ITEM_HEIGHT / 2
-  const scale = imageDimensions.height / ITEM_HEIGHT
-  let matrix = new PIXI.Matrix()
-  matrix.scale(scale, scale)
-  matrix.translate(-((imageDimensions.width * scale) / 2), 0)
 
   //create bg
   const bgImage = new PIXI.Graphics()
@@ -97,26 +104,65 @@ function createCard(caseStudy, cardIndex) {
   bgImage.endFill()
   item.addChild(bgImage)
 
+  // create overlay
+  const overlay = new PIXI.Container()
+  overlay.alpha = 0
+
   //create bg
   const bgOverlay = new PIXI.Graphics()
   bgOverlay.beginFill(0x000000)
   bgOverlay.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
   bgOverlay.endFill()
-  bgOverlay.alpha = 0
-  item.addChild(bgOverlay)
+  bgOverlay.alpha = 0.2
+  overlay.addChild(bgOverlay)
+
+  // create logo
+  const logo = PIXI.Sprite.from(caseStudy.data.svg.url)
+  logo.position.y = ITEM_WIDTH / 2 + 80
+  logo.position.x = 20
+  logo.scale.x = 80 / caseStudy.data.svg.dimensions.width
+  logo.scale.y = logo.scale.x
+  overlay.addChild(logo)
+
+  // create title
+  const tagline = asText(caseStudy.data.header[0].copy)
+  const taglineText = new PIXI.Text(tagline, {
+    fontFamily: 'calibre-light',
+    fontSize: 20,
+    fill: 0xffffff,
+    align: 'left',
+    wordWrap: true,
+    wordWrapWidth: ITEM_WIDTH - 40,
+  })
+  taglineText.x = 20
+  taglineText.y = ITEM_HEIGHT - taglineText.height - 80
+  overlay.addChild(taglineText)
+
+  // create work text
+  const workText = new PIXI.Text('VIEW WORK', {
+    fontFamily: 'calibre-light',
+    fontSize: 12,
+    fill: 0xffffff,
+    align: 'left',
+  })
+  workText.x = 20
+  workText.y = ITEM_HEIGHT - 60
+  overlay.addChild(workText)
+
+  item.addChild(overlay)
 
   item.eventMode = 'static'
   item.cursor = 'pointer'
 
   item.on('mouseover', function (e) {
-    gsap.to(bgOverlay, {
-      alpha: 0.2,
+    gsap.to(overlay, {
+      alpha: 1,
       duration: 0.5,
       overwrite: true,
     })
   })
   item.on('mouseout', function (e) {
-    gsap.to(bgOverlay, {
+    gsap.to(overlay, {
       alpha: 0,
       duration: 0.3,
       overwrite: true,

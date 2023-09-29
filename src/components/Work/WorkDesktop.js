@@ -13,8 +13,10 @@ export default function WorkDesktop({ setShowModal }) {
   useEffect(() => {
     const app = ViewportApp.init()
     el.current.appendChild(app.view)
-    ViewportApp.create(contextCaseStudies, home)
-    ViewportApp.start()
+    ViewportApp.preload().then(() => {
+      ViewportApp.create(contextCaseStudies, home)
+      ViewportApp.start()
+    })
   }, [el])
 
   return (

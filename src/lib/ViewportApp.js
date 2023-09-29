@@ -31,6 +31,14 @@ export function init() {
   return app
 }
 
+export function preload() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, 1000)
+  })
+}
+
 export function create(caseStudies, homepage) {
   const bounds = worldBounds(caseStudies.length)
 
@@ -174,6 +182,7 @@ function update() {
 export default {
   init,
   create,
+  preload,
   get,
   start,
 }
