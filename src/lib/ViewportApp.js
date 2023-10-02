@@ -87,25 +87,23 @@ export function create(caseStudies, homepage) {
       const image = PIXI.Sprite.from(header.image1.url)
       image.anchor.set(0.5)
 
-      const config = {}
+      const config = {
+        startScale: ITEM_HEIGHT / header.image1.dimensions.height,
+      }
 
       const AppRatio = app.screen.width / app.screen.height
       const ImageRatio =
         header.image1.dimensions.width / header.image1.dimensions.height
-      const Multiplier =
-        AppRatio < ITEM_RATIO
-          ? ITEM_WIDTH / app.screen.width
-          : ITEM_HEIGHT / app.screen.height
+      // const Multiplier =
+      //   AppRatio < ITEM_RATIO
+      //     ? ITEM_WIDTH / app.screen.width
+      //     : ITEM_HEIGHT / app.screen.height
 
       if (ImageRatio < AppRatio) {
-        console.log('here')
         const scale = app.screen.width / header.image1.dimensions.width
-        config.startScale = Multiplier * scale
         config.endScale = scale
       } else {
-        console.log('not here')
         const scale = app.screen.height / header.image1.dimensions.height
-        config.startScale = Multiplier * scale
         config.endScale = scale
       }
 
