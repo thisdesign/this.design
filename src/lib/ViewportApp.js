@@ -1,7 +1,6 @@
 import { gsap, InertiaPlugin, PixiPlugin } from 'gsap/all'
 gsap.registerPlugin(InertiaPlugin)
 gsap.registerPlugin(PixiPlugin)
-import emmiter from 'tiny-emitter/instance'
 
 import * as PIXI from 'pixi.js'
 import Viewport from './Viewport'
@@ -12,8 +11,9 @@ import {
   ITEM_WIDTH,
   worldBounds,
 } from './ViewportCards'
+import emmiter from 'tiny-emitter/instance'
 import CustomMouseMove from './CustomMouseMove'
-import Mask from './Mask'
+import Overlay from './Overlay'
 
 let app
 let overlay
@@ -56,9 +56,7 @@ export function create(caseStudies, homepage) {
 
   app.stage.addChild(viewport)
 
-  overlay = new PIXI.Container()
-  overlay.alpha = 0
-
+  overlay = Overlay.create()
   app.stage.addChild(overlay)
 
   const cards = createCards(
@@ -84,69 +82,26 @@ export function create(caseStudies, homepage) {
     if (header.image1?.url) {
       CustomMouseMove.disable()
 
-      const image = PIXI.Sprite.from(header.image1.url)
-      image.anchor.set(0.5)
-
-      const config = {
-        startScale: ITEM_HEIGHT / header.image1.dimensions.height,
-      }
+      const config = {}
+      config.image = header.image1?.url
+      config.startX = center.x + position.x + ITEM_WIDTH / 2
+      config.startY = center.y + position.y + ITEM_HEIGHT / 2
+      config.startScale = ITEM_HEIGHT / header.image1.dimensions.height
 
       const AppRatio = app.screen.width / app.screen.height
       const ImageRatio =
         header.image1.dimensions.width / header.image1.dimensions.height
-      // const Multiplier =
-      //   AppRatio < ITEM_RATIO
-      //     ? ITEM_WIDTH / app.screen.width
-      //     : ITEM_HEIGHT / app.screen.height
 
       if (ImageRatio < AppRatio) {
-        const scale = app.screen.width / header.image1.dimensions.width
-        config.endScale = scale
+        config.endScale = app.screen.width / header.image1.dimensions.width
       } else {
-        const scale = app.screen.height / header.image1.dimensions.height
-        config.endScale = scale
+        config.endScale = app.screen.height / header.image1.dimensions.height
       }
 
-      overlay.x = center.x + position.x + ITEM_WIDTH / 2
-      overlay.y = center.y + position.y + ITEM_HEIGHT / 2
-
-      image.scale.x = image.scale.y = config.startScale
-
-      const mask = Mask.create()
-      Mask.animate({
-        duration: 1,
-        ease: 'expo.inOut',
-        width: app.screen.width,
-        height: app.screen.height,
-        radius: 0,
-        delay: 0.3,
-      })
-      image.mask = mask
-
-      overlay.addChild(image)
-      overlay.addChild(mask)
-
-      gsap.to(overlay, {
-        duration: 0.3,
-        ease: 'expo.inOut',
-        alpha: 1,
-      })
-
-      gsap.to(overlay, {
-        duration: 1,
-        ease: 'expo.inOut',
-        x: center.x,
-        y: center.y,
-        delay: 0.3,
-      })
-
-      gsap.to(image.scale, {
-        duration: 1,
-        ease: 'expo.inOut',
-        x: config.endScale,
-        y: config.endScale,
-        delay: 0.3,
-      })
+      Overlay.resize(app.screen.width, app.screen.height)
+      Overlay.setConfig(config)
+      Overlay.show()
+      // Overlay.show()
     } else {
       // $el.style.backgroundColor = header.preload_background_color || '#ffffff'
     }
