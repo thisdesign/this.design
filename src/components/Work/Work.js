@@ -16,7 +16,7 @@ import 'swiper/scss'
 import './Work.scss'
 import WorkDesktop from './WorkDesktop'
 
-function Work() {
+function Work({ projectLaunchStatus }) {
   const windowSize = useWindowSize()
   const [shouldBeVisible, setShouldBeVisible] = useState(true)
   const [showModal, setShowModal] = useState(false)
@@ -40,7 +40,12 @@ function Work() {
         {windowSize.width <= 475 && (
           <WorkMobile setShowModal={setShowModal} data={contextCaseStudies} />
         )}
-        {windowSize.width > 475 && <WorkDesktop setShowModal={setShowModal} />}
+        {windowSize.width > 475 && (
+          <WorkDesktop
+            projectLaunchStatus={projectLaunchStatus}
+            setShowModal={setShowModal}
+          />
+        )}
       </div>
       <div id="expander" className="work__expander"></div>
       <CSSTransition

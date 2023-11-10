@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutContext } from 'containers/Layout/Layout'
+import emitter from 'tiny-emitter/instance'
 import './SecondaryNav.scss'
 
 const SecondaryNav = () => {
-  
   const context = useContext(LayoutContext)
   const {
     view,
@@ -13,20 +13,11 @@ const SecondaryNav = () => {
     setFilters,
     csState: { currentUid },
   } = context
-  
-
-  // const linkTo = link => {
-  //   if (view === 'root') {
-  //     return `/${link}`
-  //   } if (currentUid) {
-  //     return `/work/${currentUid}`
-  //   }
-  //   return '/'
-  // }
 
   const navState = [
     navInverted && view === 'root' ? 'nav--dark' : '',
-    `-view-is-${view}`, currentUid ? 'is-subpage' : ''
+    `-view-is-${view}`,
+    currentUid ? 'is-subpage' : '',
   ].join(' ')
 
   return (
@@ -38,10 +29,17 @@ const SecondaryNav = () => {
           </Link>
         </div>
         <div className={`secondaryNav__item filter`}>
-          <button onClick={() => setFilters({
-            ...filters,
-            active: true
-          })}>Filter</button>
+          <button
+            onClick={() => {
+              setFilters({
+                ...filters,
+                active: true,
+              })
+              emitter.emit('filter:show')
+            }}
+          >
+            Filter
+          </button>
         </div>
       </div>
     </nav>

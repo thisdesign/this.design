@@ -12,6 +12,14 @@ export const ITEM_WIDTH = 215
 export const ITEM_HEIGHT = 450
 export const ITEM_RATIO = ITEM_WIDTH / ITEM_HEIGHT
 
+const ANIMATION_OPTIONS = {
+  duration: 0.5,
+  ease: 'power3.out',
+}
+
+let CARDS = []
+let cardFilter = 'all'
+
 export function worldBounds(cardCount) {
   const coords = { minX: 0, maxX: 0, minY: 0, maxY: 0 }
   for (let i = 0; i < cardCount + 1; i++) {
@@ -39,8 +47,6 @@ function createVideoCard(video) {
 
   const button = PIXI.Sprite.from(PlaySvg)
   button.anchor.set(0.5)
-  button.position.x = ITEM_WIDTH / 2
-  button.position.y = ITEM_HEIGHT / 2
 
   const scale = ITEM_HEIGHT / 1920
   const translateX = (1080 * scale - ITEM_WIDTH) * 0.5
@@ -48,7 +54,14 @@ function createVideoCard(video) {
   matrix.scale(scale, scale)
   matrix.translate(-translateX, 0)
 
-  const item = new PIXI.Container()
+  const item = new PIXI.Sprite()
+  item.anchor.set(0.5)
+
+  const bgColor = new PIXI.Graphics()
+  bgColor.beginFill(0x000000, 1)
+  bgColor.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
+  bgColor.endFill()
+
   const bgImage = new PIXI.Graphics()
   bgImage.beginTextureFill({
     texture,
@@ -57,20 +70,26 @@ function createVideoCard(video) {
   bgImage.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
   bgImage.endFill()
 
-  item.position.x = ITEM_WIDTH * -0.5
-  item.position.y = ITEM_HEIGHT * -0.5
+  bgImage.position.x = bgColor.position.x = ITEM_WIDTH * -0.5
+  bgImage.position.y = bgColor.position.y = ITEM_HEIGHT * -0.5
 
+  item.addChild(bgColor)
   item.addChild(bgImage)
   item.addChild(button)
 
   item.eventMode = 'static'
   item.cursor = 'pointer'
 
+  item.alpha = 0
+  item.position.y = 100
+
   item.on('click', function (e) {
     emitter.emit('video:click', video, item.position)
   })
 
-  return item
+  return {
+    view: item,
+  }
 }
 
 function createCard(caseStudy, cardIndex) {
@@ -90,9 +109,11 @@ function createCard(caseStudy, cardIndex) {
   matrix.translate(-translateX, 0)
 
   const point = GRID_CONFIG[cardIndex + 1]
-  const item = new PIXI.Container()
-  item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0] - ITEM_WIDTH / 2
-  item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] - ITEM_HEIGHT / 2
+
+  const item = new PIXI.Sprite()
+  item.anchor.set(0.5)
+  item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0]
+  item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] + 100
 
   //create bg
   const bgImage = new PIXI.Graphics()
@@ -151,8 +172,13 @@ function createCard(caseStudy, cardIndex) {
 
   item.addChild(overlay)
 
+  overlay.position.x = bgImage.position.x = ITEM_WIDTH * -0.5
+  overlay.position.y = bgImage.position.y = ITEM_HEIGHT * -0.5
+
   item.eventMode = 'static'
   item.cursor = 'pointer'
+
+  item.alpha = 0
 
   item.on('mouseover', function (e) {
     gsap.to(overlay, {
@@ -179,15 +205,98 @@ function createCard(caseStudy, cardIndex) {
     }
   })
 
-  return item
+  return {
+    view: item,
+    overlay,
+  }
+}
+
+export function showCards(delay = 0.5) {
+  CARDS.forEach((card, i) => {
+    // gsap.to(card.view.scale, {
+    //   x: 1,
+    //   y: 1,
+    //   ...ANIMATION_OPTIONS,
+    //   delay: delay + i * 0.05,
+    // })
+    gsap.to(card.view.position, {
+      y: '-=100',
+      delay: delay + i * 0.05,
+      ...ANIMATION_OPTIONS,
+    })
+    gsap.to(card.view, {
+      alpha: 1,
+      delay: delay + i * 0.05,
+      ...ANIMATION_OPTIONS,
+    })
+  })
+}
+
+export function hideCards() {
+  CARDS.forEach((card, i) => {
+    gsap.to(card.view.position, {
+      y: '+=100',
+      ...ANIMATION_OPTIONS,
+      duration: 0,
+    })
+    gsap.to(card.view, {
+      alpha: 0,
+      ...ANIMATION_OPTIONS,
+      duration: 0,
+    })
+  })
+}
+
+export function updateFilter(filter, caseStudies) {
+  cardFilter = filter
+  CARDS.forEach((card, i) => {
+    if (i > 0) {
+      const item = caseStudies[i - 1]
+      const hasTag =
+        item.tags && item.tags.length > 0 && item.tags.includes(cardFilter)
+
+      gsap.to(card.view, {
+        alpha: hasTag || filter === 'all' ? 1 : 0.5,
+        ...ANIMATION_OPTIONS,
+      })
+    }
+  })
+}
+
+export function toggleCards(canHover, caseStudies) {
+  CARDS.forEach((card, i) => {
+    if (i > 0) {
+      if (cardFilter === 'all') {
+        card.view.eventMode = canHover ? 'static' : 'none'
+        card.view.cursor = canHover ? 'pointer' : 'none'
+      } else {
+        const item = caseStudies[i - 1]
+        const hasTag =
+          item.tags && item.tags.length > 0 && item.tags.includes(cardFilter)
+        card.view.eventMode = canHover && hasTag ? 'static' : 'none'
+        card.view.cursor = canHover && hasTag ? 'pointer' : 'none'
+      }
+      if (!canHover)
+        gsap.to(card.overlay, {
+          alpha: 0,
+          ...ANIMATION_OPTIONS,
+        })
+    }
+  })
 }
 
 export function createCards(video, caseStudies) {
   const view = new PIXI.Container()
+
+  const videoCard = createVideoCard(video)
+  view.addChild(videoCard.view)
+  CARDS.push(videoCard)
+
   for (var i = 0; i < caseStudies.length; i++) {
     const card = createCard(caseStudies[i], i)
-    view.addChild(card)
+    CARDS.push(card)
+    view.addChild(card.view)
   }
-  view.addChild(createVideoCard(video))
+
   return view
 }

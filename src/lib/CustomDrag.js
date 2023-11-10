@@ -77,7 +77,7 @@ function onDragEnd(event) {
         this.screenWidth < this.width
           ? {
               resistance: 500,
-              velocity: Math.max(Math.min(1000, vX), -1000),
+              velocity: Math.max(Math.min(1500, vX), -1500),
               min: this.screenWidth - (this.width + BOUNDS_BORDER),
               max: BOUNDS_BORDER,
             }
@@ -85,7 +85,7 @@ function onDragEnd(event) {
       y:
         this.screenWidth < this.height
           ? {
-              velocity: Math.max(Math.min(1000, vY), -1000),
+              velocity: Math.max(Math.min(1500, vY), -1500),
               resistance: 500,
               min: this.screenHeight - (this.height + BOUNDS_BORDER),
               max: BOUNDS_BORDER,

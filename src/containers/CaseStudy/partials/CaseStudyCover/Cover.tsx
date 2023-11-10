@@ -10,6 +10,7 @@ import Waypoint from 'react-waypoint'
 const mobile = isMobile()
 
 const Cover = () => {
+
   const context = useContext(CsContext)
 
   const { header, tags, date, credits, launch_site_text, launch_site_link, launch_site_background, launch_site_text1, svg, next, csTransitioning } = context
@@ -21,6 +22,7 @@ const Cover = () => {
 
   const dateArr = date ? date.split('-') : []
   const [visible, setVisible] = useState(false)
+  const [coverVisible, setCoverVisible] = useState(false)
   const classNames = [
     'casestudy__cta',
     visible ? 'wp-show' : '',
@@ -38,7 +40,9 @@ const Cover = () => {
 
   return (
     <>
-    <Styled.Cover>
+    <Waypoint onEnter={() => setCoverVisible(true)}>
+  <div>
+    <Styled.Cover coverVisible={coverVisible}>
       <Styled.Fill backgroundColor={header.backgroundColor} />
       <Styled.Header>
         <div>
@@ -69,6 +73,8 @@ const Cover = () => {
       </Styled.Header>
       <Splash />
     </Styled.Cover>
+    </div>          
+    </Waypoint>
     <div className={`casestudy__panel  ${panel ? 'active' : ''} dark`}>
       <div className="casestudy__panel-inner">
         <div className="casestudy__services">

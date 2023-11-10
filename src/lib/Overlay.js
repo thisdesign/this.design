@@ -1,6 +1,7 @@
 import gsap from 'gsap/all'
 import { ITEM_HEIGHT, ITEM_WIDTH } from './ViewportCards'
 import * as PIXI from 'pixi.js'
+import emitter from 'tiny-emitter/instance'
 
 let overlay
 let sprite
@@ -8,6 +9,7 @@ let mask
 let props
 let screen
 let animating = false
+let currentUID = ''
 
 let MaskConfig = {
   width: ITEM_WIDTH,
@@ -74,8 +76,9 @@ function resize(width, height) {
   }
 }
 
-function show() {
+function show(uid) {
   if (animating) return
+  currentUID = uid
   overlay.visible = true
   animating = true
 
@@ -116,15 +119,17 @@ function show() {
 
 function showComplete() {
   animating = false
+  emitter.emit('route:update', { uid: currentUID })
 }
 
-function hide() {
-  if (animating) return
+function hide(animate = true) {
+  if (animating || !overlay || !props) return
 
   animating = true
+  const duration = animate ? 1 : 0
 
   gsap.to(overlay, {
-    duration: 1,
+    duration,
     ease: 'expo.inOut',
     x: props.startX,
     y: props.startY,
@@ -132,7 +137,7 @@ function hide() {
   })
 
   gsap.to(sprite.scale, {
-    duration: 1,
+    duration,
     ease: 'expo.inOut',
     x: props.startScale,
     y: props.startScale,
@@ -140,7 +145,7 @@ function hide() {
 
   //animate mask
   gsap.to(MaskConfig, {
-    duration: 1,
+    duration,
     ease: 'expo.inOut',
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
@@ -172,5 +177,6 @@ export default {
   create,
   setConfig,
   show,
+  hide,
   resize,
 }

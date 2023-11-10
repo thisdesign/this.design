@@ -6,9 +6,13 @@ import * as PIXI from 'pixi.js'
 import Viewport from './Viewport'
 import {
   createCards,
+  hideCards,
   ITEM_HEIGHT,
-  ITEM_RATIO,
   ITEM_WIDTH,
+  showCards,
+  toggleCard,
+  toggleCards,
+  updateFilter,
   worldBounds,
 } from './ViewportCards'
 import emmiter from 'tiny-emitter/instance'
@@ -17,6 +21,14 @@ import Overlay from './Overlay'
 
 let app
 let overlay
+let started = false
+
+export function isInited() {
+  if (app) {
+    return true
+  }
+  return false
+}
 
 export function init() {
   app = new PIXI.Application({
@@ -31,12 +43,18 @@ export function init() {
   return app
 }
 
-export function preload() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve()
-    }, 1000)
-  })
+export function preload(images) {
+  return Promise.all(
+    images.map((path) => {
+      return new Promise((resolve) => {
+        var img = new Image()
+        img.onload = () => {
+          resolve()
+        }
+        img.src = path
+      })
+    })
+  )
 }
 
 export function create(caseStudies, homepage) {
@@ -77,33 +95,73 @@ export function create(caseStudies, homepage) {
 
   CustomMouseMove.enable()
 
+  emmiter.on('filter:change', ({ key }) => {
+    updateFilter(key, caseStudies)
+  })
+
+  emmiter.on('filter:show', () => {
+    CustomMouseMove.disable()
+    toggleCards(false, caseStudies)
+    gsap.to(cards.position, {
+      duration: 0.7,
+      ease: 'power3.out',
+      x: bounds.width * 0.5 - 378,
+    })
+    gsap.to(cards.scale, {
+      duration: 0.7,
+      x: 0.85,
+      y: 0.85,
+    })
+  })
+  emmiter.on('filter:hide', () => {
+    toggleCards(true, caseStudies)
+    gsap.to(cards.position, {
+      duration: 0.7,
+      ease: 'power3.out',
+      x: bounds.width * 0.5,
+    })
+    gsap.to(cards.scale, {
+      duration: 0.7,
+      x: 1,
+      y: 1,
+    })
+    CustomMouseMove.enable()
+  })
+
   emmiter.on('card:click', function (caseStudy, position) {
     const header = caseStudy.data.header[0]
-    if (header.image1?.url) {
-      CustomMouseMove.disable()
 
-      const config = {}
-      config.image = header.image1?.url
-      config.startX = center.x + position.x + ITEM_WIDTH / 2
-      config.startY = center.y + position.y + ITEM_HEIGHT / 2
-      config.startScale = ITEM_HEIGHT / header.image1.dimensions.height
+    CustomMouseMove.disable()
 
-      const AppRatio = app.screen.width / app.screen.height
-      const ImageRatio =
-        header.image1.dimensions.width / header.image1.dimensions.height
+    const config = {}
+    config.image = header.image1?.url
+    config.startX = center.x + position.x
+    config.startY = center.y + position.y
+    config.startScale = ITEM_HEIGHT / header.image1.dimensions.height
 
-      if (ImageRatio < AppRatio) {
-        config.endScale = app.screen.width / header.image1.dimensions.width
-      } else {
-        config.endScale = app.screen.height / header.image1.dimensions.height
-      }
+    const AppRatio = app.screen.width / app.screen.height
+    const ImageRatio =
+      header.image1.dimensions.width / header.image1.dimensions.height
 
-      Overlay.resize(app.screen.width, app.screen.height)
-      Overlay.setConfig(config)
-      Overlay.show()
-      // Overlay.show()
+    if (ImageRatio < AppRatio) {
+      config.endScale = app.screen.width / header.image1.dimensions.width
     } else {
-      // $el.style.backgroundColor = header.preload_background_color || '#ffffff'
+      config.endScale = app.screen.height / header.image1.dimensions.height
+    }
+
+    Overlay.resize(app.screen.width, app.screen.height)
+    Overlay.setConfig(config)
+    Overlay.show(caseStudy.uid)
+  })
+
+  emmiter.on('overlay:hide', () => {
+    Overlay.hide(false)
+    hideCards()
+  })
+
+  emmiter.on('cards:show', () => {
+    if (started) {
+      showCards()
     }
   })
 
@@ -118,7 +176,9 @@ export function get() {
 }
 
 export function start() {
+  started = true
   update()
+  showCards()
 }
 
 function update() {
@@ -134,6 +194,7 @@ function update() {
 
 export default {
   init,
+  isInited,
   create,
   preload,
   get,
