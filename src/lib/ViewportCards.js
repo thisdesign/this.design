@@ -36,7 +36,7 @@ export function worldBounds(cardCount) {
   const height =
     (Math.abs(coords.minY) + Math.abs(coords.maxY)) *
       (ITEM_HEIGHT + GRID_MARGIN) +
-    ITEM_HEIGHT / 2
+    ITEM_HEIGHT * 1.5
   return { width, height }
 }
 
@@ -197,10 +197,7 @@ function createCard(caseStudy, cardIndex) {
   item.on('click', function (e) {
     const viewport = Viewport.get()
     if (!viewport.disableClick) {
-      const position = {
-        x: item.position.x - (viewport.center.x - viewport.worldWidth / 2),
-        y: item.position.y - (viewport.center.y - viewport.worldHeight / 2),
-      }
+      const position = item.getGlobalPosition()
       emitter.emit('card:click', caseStudy, position)
     }
   })
@@ -213,12 +210,6 @@ function createCard(caseStudy, cardIndex) {
 
 export function showCards(delay = 0.5) {
   CARDS.forEach((card, i) => {
-    // gsap.to(card.view.scale, {
-    //   x: 1,
-    //   y: 1,
-    //   ...ANIMATION_OPTIONS,
-    //   delay: delay + i * 0.05,
-    // })
     gsap.to(card.view.position, {
       y: '-=100',
       delay: delay + i * 0.05,

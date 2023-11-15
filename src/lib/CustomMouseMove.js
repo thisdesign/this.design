@@ -19,17 +19,19 @@ export function create(vp) {
       tween = gsap.to(viewport, {
         duration: 0.3,
         overwrite: true,
-        x:
-          viewport.screenWidth > viewport.width
-            ? center.x
-            : center.x + percent.x * OFFSET,
+        x: center.x + percent.x * OFFSET,
         y: center.y + percent.y * OFFSET,
       })
     }
   })
 }
 
-export function enable() {
+export function enable(newCenter) {
+  if (newCenter) {
+    center.x = newCenter.x
+    center.y = newCenter.y
+  }
+
   center.x = viewport.x - (percent ? percent.x * OFFSET : 0)
   center.y = viewport.y - (percent ? percent.y * OFFSET : 0)
   enabled = true

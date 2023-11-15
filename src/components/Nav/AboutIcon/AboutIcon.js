@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const AboutIcon = props => {
+const AboutIcon = (props) => {
   const { view } = props
   return (
     <div className={`icon icon--about ${view === 'active' ? '-enabled' : ''}`}>

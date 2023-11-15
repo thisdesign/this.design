@@ -8,9 +8,8 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 1005;
   box-sizing: border-box;
-  mix-blend-mode: difference;
   transition: transform .3s;
   z-index: 100;
 
@@ -31,16 +30,22 @@
   }
 
   .secondaryNav__item a, .secondaryNav__item button{
-    color: white;
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 6px 12px;
     text-decoration: none;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-size: 12px;
-    font-family: calibre-light;
-    font-weight: bold;
-    border: 0;
-    outline: none;
-    background: transparent;
+    font-family: calibre-light, arial, sans-serif;
+    font-weight: 700;
+    border: 1px solid black;
+    transition: .3s;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(255,255,255,.85);
+    }
   }
 
   &.-wrap-nav{

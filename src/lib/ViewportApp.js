@@ -18,6 +18,7 @@ import {
 import emmiter from 'tiny-emitter/instance'
 import CustomMouseMove from './CustomMouseMove'
 import Overlay from './Overlay'
+import CustomDrag from './CustomDrag'
 
 let app
 let overlay
@@ -135,11 +136,11 @@ export function create(caseStudies, homepage) {
 
     const config = {}
     config.image = header.image1?.url
-    config.startX = center.x + position.x
-    config.startY = center.y + position.y
+    config.startX = position.x
+    config.startY = position.y
     config.startScale = ITEM_HEIGHT / header.image1.dimensions.height
 
-    const AppRatio = app.screen.width / app.screen.height
+    const AppRatio = window.innerWidth / window.innerHeight
     const ImageRatio =
       header.image1.dimensions.width / header.image1.dimensions.height
 
@@ -149,7 +150,7 @@ export function create(caseStudies, homepage) {
       config.endScale = app.screen.height / header.image1.dimensions.height
     }
 
-    Overlay.resize(app.screen.width, app.screen.height)
+    Overlay.resize(window.innerWidth, window.innerHeight)
     Overlay.setConfig(config)
     Overlay.show(caseStudy.uid)
   })
@@ -166,8 +167,11 @@ export function create(caseStudies, homepage) {
   })
 
   window.onresize = () => {
+    CustomMouseMove.disable()
     app.renderer.resize(window.innerWidth, window.innerHeight)
     viewport.resize(window.innerWidth, window.innerHeight)
+    CustomDrag.updateBounds()
+    CustomMouseMove.enable(viewport.center)
   }
 }
 

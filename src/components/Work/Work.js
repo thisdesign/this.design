@@ -167,10 +167,7 @@ const WorkList = ({ items }) => {
         <div className="work__list__container">
           <div className="work__list__items">
             {items.map((caseStudy, index) => {
-              const csTags = caseStudy.tags
-              const commonTags = filters.tags.filter((filter) =>
-                csTags.includes(filter)
-              )
+              const hasTag = caseStudy.tags.includes(filters.tag)
 
               return (
                 <Link
@@ -178,9 +175,7 @@ const WorkList = ({ items }) => {
                   key={`work-list-item${index}`}
                 >
                   <div
-                    className={`work__list__item ${
-                      commonTags.length === 0 ? 'disable' : ''
-                    }`}
+                    className={`work__list__item ${hasTag ? 'disable' : ''}`}
                   >
                     <div className="work__list__item--thumb">
                       <img src={caseStudy.data.thumbnail.url} alt="" />
@@ -297,21 +292,6 @@ const WorkThumbnail = withRouter(
         className={`work__link ${disable ? 'disable' : ''}`}
         to={`/work/${uid}`}
         key={uid}
-        onClick={(e) => {
-          if (dragging.current === false) {
-            if (expandAnimation) {
-              e.preventDefault()
-              expandAnimation(top, left).then(() => {
-                history.push(`/work/${uid}`)
-                launchProject(uid)
-              })
-            } else {
-              launchProject(uid)
-            }
-          } else {
-            e.preventDefault()
-          }
-        }}
         style={styles}
       >
         <div className="work__link__wrapper">

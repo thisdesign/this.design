@@ -3,7 +3,6 @@
 
 .nav__mobile-logo{
   position: absolute;
-  left: 0;
   top: 20px;
   left: 4px;
   width: 46px;
@@ -19,16 +18,55 @@
   }
 }
 
+.nav__item--shop-link {
+  @media (max-width: 475px) {
+    display: none;
+  }
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 20px;
+  z-index: 1005;
+  text-transform: uppercase;
+  transition: .3s;
+
+  &.hide {
+    transform: translateY(-80px);
+    opacity: 0;
+  }
+
+  a {
+    background-color: white;
+    color: black;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 6px 12px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: calibre-light, arial, sans-serif;
+    font-weight: 700;
+    border: 1px solid black;
+    transition: .3s;
+    &:hover {
+      background-color: rgba(255,255,255,.85);
+    }
+  }
+ 
+}
+
 .nav {
   background-color: transparent;
   left: 0;
   padding-top: $nav-padding;
   position: fixed;
+  mix-blend-mode: difference;
   top: 0;
   width: 100%;
   z-index: 1004;
   box-sizing: border-box;
-  mix-blend-mode: difference;
+  
+  
   transform: translateZ(0);
 
   @include breakpoint(xs) {
@@ -69,6 +107,11 @@
     letter-spacing: 2px;
     font-size: 12px;
     font-weight: bold;
+  }
+
+  .nav__item.link {
+    mix-blend-mode: normal;
+    background: white;
   }
 
   .nav__item--logo{

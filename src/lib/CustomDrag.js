@@ -3,14 +3,18 @@ import CustomMouseMove from './CustomMouseMove'
 
 const BOUNDS_BORDER = 50
 const MIN_DISTANCE = 5
+let viewport
+let resizing = false
 
-export function createDrag(viewport) {
-  viewport = viewport
+export function createDrag(vp) {
+  viewport = vp
   viewport
     .on('pointerdown', onDragStart)
     .on('pointerup', onDragEnd)
     .on('pointerupoutside', onDragEnd)
     .on('pointermove', onDragMove)
+
+  window.addEventListener('wheel', handleWheel)
 
   VelocityTracker.track(viewport.position, 'x,y')
 }
@@ -55,14 +59,66 @@ function onDragMove(event) {
       )
     }
 
-    this.position.y = Math.min(
-      BOUNDS_BORDER * 2,
-      Math.max(newY, this.screenHeight - (this.height + BOUNDS_BORDER * 2))
-    )
+    if (this.screenHeight < this.height) {
+      this.position.y = Math.min(
+        BOUNDS_BORDER * 2,
+        Math.max(newY, this.screenHeight - (this.height + BOUNDS_BORDER * 2))
+      )
+    }
 
     this.lastPosition = newPosition
   }
 }
+
+function handleWheel(e) {
+  CustomMouseMove.disable()
+
+  const newX = viewport.position.x + e.deltaX
+  const newY = viewport.position.y - e.deltaY
+
+  if (window.innerWidth < viewport.width) {
+    viewport.position.x = Math.min(
+      BOUNDS_BORDER,
+      Math.max(newX, viewport.screenWidth - (viewport.width + BOUNDS_BORDER))
+    )
+  }
+
+  if (window.innerHeight < viewport.height) {
+    viewport.position.y = Math.min(
+      BOUNDS_BORDER,
+      Math.max(newY, viewport.screenHeight - (viewport.height + BOUNDS_BORDER))
+    )
+  }
+
+  CustomMouseMove.enable(viewport.center)
+}
+
+export function updateBounds() {
+  resizing = true
+  if (window.innerWidth > viewport.width) {
+    viewport.position.x = (window.innerWidth - viewport.width) * 0.5
+  } else {
+    viewport.position.x = Math.min(
+      BOUNDS_BORDER,
+      Math.max(
+        viewport.position.x,
+        viewport.screenWidth - (viewport.width + BOUNDS_BORDER)
+      )
+    )
+  }
+  if (window.inneHeight > viewport.widthHeight) {
+    viewport.position.y = (window.inneHeight - viewport.height) * 0.5
+  } else {
+    viewport.position.y = Math.min(
+      BOUNDS_BORDER,
+      Math.max(
+        viewport.position.y,
+        viewport.screenHeight - (viewport.height + BOUNDS_BORDER)
+      )
+    )
+  }
+}
+
 function onDragEnd(event) {
   this.data = null
   this.lastPosition = null
@@ -101,4 +157,5 @@ function onDragEnd(event) {
 
 export default {
   createDrag,
+  updateBounds,
 }
