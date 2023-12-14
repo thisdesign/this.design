@@ -73,7 +73,7 @@ function onDragMove(event) {
 function handleWheel(e) {
   CustomMouseMove.disable()
 
-  const newX = viewport.position.x + e.deltaX
+  const newX = viewport.position.x - e.deltaX
   const newY = viewport.position.y - e.deltaY
 
   if (window.innerWidth < viewport.width) {

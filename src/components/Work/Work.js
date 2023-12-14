@@ -96,7 +96,7 @@ const WorkMobile = ({ setShowModal, data }) => {
             const joinedCopy = header[0].copy.map((item) => item.text).join('')
 
             return (
-              <SwiperSlide>
+              <SwiperSlide key={`ss_${uid}`}>
                 <WorkThumbnail
                   key={uid}
                   uid={uid}
@@ -137,7 +137,7 @@ const WorkVideoThumb = ({ left, top, dragging, setShowModal, video }) => {
       )}
       <img
         className="work__item__video--play"
-        src={require('./Play.svg')}
+        src={require('./Play.svg').default}
         alt=""
       />
     </div>
@@ -331,7 +331,6 @@ WorkThumbnail.propTypes = {
   thumbnail: PropTypes.object.isRequired,
   svg: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  launchProject: PropTypes.func.isRequired,
 }
 
 export default React.memo(Work)

@@ -38,7 +38,7 @@ const SecondaryNav = () => {
               emitter.emit('filter:show')
             }}
           >
-            Filter
+            {filters.tag === 'all' ? 'Filter' : 'Filtered'}
           </button>
         </div>
       </div>

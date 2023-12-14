@@ -13,10 +13,7 @@ const View = styled.div`
   width: 100%;
   -webkit-overflow-scrolling: touch;
   z-index: ${props => (props.aside ? 'unset' : 20)};
-  background-color: ${props =>
-    (props.viewName === 'about' && props.activeView === 'about' && 'transparent') ||
-    (props.viewName === 'about' && 'black') ||
-    (props.viewName === 'shop' && 'white')};
+  background-color: 'black';
 
   transform: translate3d(
     ${({ activeView, viewName, filterActive }) => {

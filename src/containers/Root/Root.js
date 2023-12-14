@@ -13,7 +13,6 @@ function Root({ projectLaunchStatus, history }) {
   const [openingFromHome, setOpeningFromHome] = useState(false)
 
   const { contextCaseStudies } = useContext(ApiDataCtx)
-  const { caseStudySelected } = useContext(LayoutContext).csState
 
   const commitHomeOpen = () => {
     history.push(`/work/${contextCaseStudies[0].uid}`)

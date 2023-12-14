@@ -247,7 +247,7 @@ export function updateFilter(filter, caseStudies) {
         item.tags && item.tags.length > 0 && item.tags.includes(cardFilter)
 
       gsap.to(card.view, {
-        alpha: hasTag || filter === 'all' ? 1 : 0.5,
+        alpha: hasTag || filter === 'all' ? 1 : 0.25,
         ...ANIMATION_OPTIONS,
       })
     }

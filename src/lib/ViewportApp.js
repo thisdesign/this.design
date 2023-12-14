@@ -33,7 +33,7 @@ export function isInited() {
 
 export function init() {
   app = new PIXI.Application({
-    backgroundAlpha: 0,
+    background: 0x000000,
     width: window.innerWidth,
     height: window.innerHeight,
     resolution: window.devicePixelRatio,

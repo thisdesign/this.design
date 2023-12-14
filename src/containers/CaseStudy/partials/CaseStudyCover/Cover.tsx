@@ -36,6 +36,11 @@ const Cover = () => {
   }
 
   const hidePanelClass = next && !csTransitioning ? 'hide' : ''
+
+  let targetAttr = {} as any
+  if(launch_site_link?.target) {
+    targetAttr.target = launch_site_link.target
+  }
   
 
   return (
@@ -65,7 +70,7 @@ const Cover = () => {
               <div className={`casestudy__toggle ${hidePanelClass} ${panel ? 'active' : ''}`}  onClick={() => togglePanel()}></div>
             </div>
             {launch_site_text && launch_site_link && 
-              <a href={launch_site_link.url} style={colorStyles}>
+              <a href={launch_site_link.url} style={colorStyles} {...targetAttr}>
                 {launch_site_text}
               </a>}
           </div>
