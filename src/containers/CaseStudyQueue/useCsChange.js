@@ -7,7 +7,6 @@ export default function useCsChange({ history }) {
   const { nextUid } = useContext(LayoutContext).csState
 
   const commitQueueChange = () => {
-    console.log('queue change', nextUid)
     history.push(`/work/${nextUid}`)
     setIsAnimating(false)
   }

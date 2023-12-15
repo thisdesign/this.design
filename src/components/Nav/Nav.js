@@ -50,13 +50,9 @@ const Nav = () => {
           currentUid || view !== 'root' || filters.active ? 'hide' : ''
         }`}
       >
-        <a
-          href="https://thisllc.myshopify.com"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <span>SHOP</span>
-        </a>
+        <Link to={`/about`}>
+          <span>About</span>
+        </Link>
       </div>
 
       <nav className={`nav -wrap-nav ${navState}`}>

@@ -19,15 +19,13 @@ function WorkDesktop(props) {
 
   useEffect(() => {
     emmiter.on('video:click', function (video, position) {
-    
       setShowModal(true)
     })
-  
+
     emmiter.on('route:update', function ({ uid }) {
       history.push(`/work/${uid}`)
     })
-
-  },[])
+  }, [])
 
   const { contextCaseStudies, home } = useContext(ApiDataCtx)
   const preloadImages = contextCaseStudies.map((casestudy) => {

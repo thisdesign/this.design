@@ -24,9 +24,13 @@ const SecondaryNav = () => {
     <nav className={`secondaryNav -wrap-nav ${navState}`}>
       <div className="secondaryNav__inner">
         <div className="secondaryNav__item">
-          <Link to={`/about`}>
-            <span>About</span>
-          </Link>
+          <a
+            href="https://thisllc.myshopify.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span>SHOP</span>
+          </a>
         </div>
         <div className={`secondaryNav__item filter`}>
           <button

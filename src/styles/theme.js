@@ -7,7 +7,7 @@ const scale = modularScale({
   stepsDown: 3,
 })
 
-const fontSizes = scale.map(num => `${num}rem`)
+const fontSizes = scale.map((num) => `${num}rem`)
 
 const margin = {
   lg: '5em',
