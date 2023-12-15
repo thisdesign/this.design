@@ -71,6 +71,10 @@ function onDragMove(event) {
 }
 
 function handleWheel(e) {
+  if (window.location.pathname !== '/') {
+    return
+  }
+
   CustomMouseMove.disable()
 
   const newX = viewport.position.x - e.deltaX
