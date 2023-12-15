@@ -11,7 +11,7 @@
     text-transform: none;
     letter-spacing: unset;
   }
-  a {
+  a, a:visited, a:hover, a:focus {
     color: white;
     font-style: italic;
   }

@@ -13,7 +13,7 @@ export const ITEM_HEIGHT = 450
 export const ITEM_RATIO = ITEM_WIDTH / ITEM_HEIGHT
 
 const ANIMATION_OPTIONS = {
-  duration: 0.5,
+  duration: 3,
   ease: 'power3.out',
 }
 
@@ -210,14 +210,15 @@ function createCard(caseStudy, cardIndex) {
 
 export function showCards(delay = 0.5) {
   CARDS.forEach((card, i) => {
+    const delay = Math.random() * 0.75 + 0.25
     gsap.to(card.view.position, {
-      y: '-=100',
-      delay: delay + i * 0.05,
+      y: '-=150',
+      delay,
       ...ANIMATION_OPTIONS,
     })
     gsap.to(card.view, {
       alpha: 1,
-      delay: delay + i * 0.05,
+      delay,
       ...ANIMATION_OPTIONS,
     })
   })
@@ -226,7 +227,7 @@ export function showCards(delay = 0.5) {
 export function hideCards() {
   CARDS.forEach((card, i) => {
     gsap.to(card.view.position, {
-      y: '+=100',
+      y: '+=150',
       ...ANIMATION_OPTIONS,
       duration: 0,
     })
