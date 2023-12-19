@@ -24,15 +24,27 @@ const Slice = ({ children, type, spacing }) => (
 
 const Slices = ({ sliceData, title }) => {
   const slices = sliceData.map((data) => {
-    console.log(data)
     const atts = { data, title }
     let spacing = undefined
     switch (data.slice_type) {
       case 'text':
-        return <Text spacing="medium" value={RichText.render(data.value)} type="text" />
+        return (
+          <Text
+            spacing="medium"
+            value={RichText.render(data.value)}
+            type="text"
+          />
+        )
       case 'text_v2':
         spacing = data?.primary?.spacing
-        return <Text {...atts} spacing={spacing} value={RichText.render(data.primary.text)} type="text" />
+        return (
+          <Text
+            {...atts}
+            spacing={spacing}
+            value={RichText.render(data.primary.text)}
+            type="text"
+          />
+        )
       case 'columns':
       case 'columns-v2':
         spacing = data?.primary?.spacing
@@ -50,7 +62,9 @@ const Slices = ({ sliceData, title }) => {
         return <Video {...atts} spacing={spacing} type="video" />
       case 'panning_gallery':
         spacing = data?.primary?.spacing
-        return <PanningGallery {...atts} spacing={spacing} type="panning-gallery" />
+        return (
+          <PanningGallery {...atts} spacing={spacing} type="panning-gallery" />
+        )
       case 'gallery':
       case 'gallery-v2':
         spacing = data?.primary?.spacing
@@ -78,11 +92,15 @@ const Slices = ({ sliceData, title }) => {
 
   return slices.map((slice, i) => {
     return (
-      <Slice type={slice.props.type} spacing={slice.props.spacing} key={`${slice.props.type}${i}`}>
+      <Slice
+        type={slice.props.type}
+        spacing={slice.props.spacing}
+        key={`${slice.props.type}${i}`}
+      >
         {slice}
       </Slice>
     )
-    })
+  })
 }
 
 export default React.memo(Slices)

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { LayoutContext } from 'containers/Layout/Layout'
 import Head from 'components/Head'
 
@@ -8,6 +8,7 @@ import Posed, { getPose } from './posed'
 import Partials from './partials/index'
 import _getContextProps from './util/_getContextProps'
 import { CaseStudyDoc } from 'types'
+import Waypoint from 'react-waypoint'
 
 /**
  * Types
@@ -75,6 +76,9 @@ const CaseStudy: React.FC<IProps> = ({
   initHomeOpen,
   csTransitioning,
 }) => {
+
+  const [ready, setReady] = useState(false)
+
   const customStyle = {
     textColor: doc.data.text_color,
     background: doc.data.background_color,
@@ -104,8 +108,10 @@ const CaseStudy: React.FC<IProps> = ({
       }}
     >
       <HeadMeta />
+      <Waypoint onEnter={() => setReady(true)}>
+      
       <Posed.CaseStudy
-        className="casestudy"
+        className={`casestudy casestudy_animation ${isHome ? 'from-home' : ''} ${ready ? 'active' :''}`}
         onClick={isHome ? initHomeOpen : null}
         pose={getPose({
           next,
@@ -126,6 +132,8 @@ const CaseStudy: React.FC<IProps> = ({
         </Styled.Inner>
         <Partials.Shim {...{ initCsChange, isHome }} />
       </Posed.CaseStudy>
+      
+      </Waypoint>
     </CsContext.Provider>
   )
 }
@@ -137,8 +145,6 @@ const HeadMeta = () => {
   const context = useContext(CsContext)
   const { isHome, next, meta } = context
   const { currentUid } = useContext(LayoutContext).csState
-
-  console.log('case study', context)
 
   if (!isHome && !next) {
     return (

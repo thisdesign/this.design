@@ -22,7 +22,8 @@ function CaseStudyQueue({
 
   return csTrack.map(
     (uid, i) =>
-      uid !== null && caseStudySelected && (
+      uid !== null &&
+      caseStudySelected && (
         <CaseStudy
           key={uid}
           next={i === 1}

@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { LayoutContext } from 'containers/Layout/Layout'
 import { ApiDataCtx } from 'containers/App/App'
+import emmitter from 'tiny-emitter/instance'
 
 import './WorkFilter.scss'
 
 const WorkFilters = () => {
   const { filters, setFilters } = useContext(LayoutContext)
   const { contextCaseStudies } = useContext(ApiDataCtx)
-  const activeTags = filters.tags
 
   const getCount = (key) => {
     let count = 0
@@ -19,109 +19,79 @@ const WorkFilters = () => {
     return count
   }
 
-  const [tags, setTags] = useState([
+  const tags = [
     {
       title: 'Strategy',
-      active: activeTags.includes('strategy'),
       count: getCount('strategy'),
     },
     {
       title: 'Branding',
-      active: activeTags.includes('branding'),
       count: getCount('branding'),
     },
     {
       title: 'Digital',
-      active: activeTags.includes('digital'),
       count: getCount('digital'),
     },
     {
       title: 'Content',
-      active: activeTags.includes('content'),
       count: getCount('content'),
     },
     {
       title: 'Environment',
-      active: activeTags.includes('environment'),
       count: getCount('environment'),
     },
     {
       title: 'Sustainability',
-      active: activeTags.includes('sustainability'),
       count: getCount('sustainability'),
     },
     {
       title: 'Outdoor',
-      active: activeTags.includes('outdoor'),
       count: getCount('outdoor'),
     },
     {
       title: 'Transportation',
-      active: activeTags.includes('transportation'),
       count: getCount('transportation'),
     },
     {
       title: 'Hospitality',
-      active: activeTags.includes('hospitality'),
       count: getCount('hospitality'),
     },
     {
       title: 'Culture',
-      active: activeTags.includes('culture'),
       count: getCount('culture'),
     },
-  ])
+  ]
 
   const closeFilters = () => {
     setFilters({
       ...filters,
       active: false,
     })
+    emmitter.emit('filter:hide')
   }
 
   const resetFilters = () => {
-    setTags(
-      tags.map((item) => {
-        return { title: item.title, count: item.count, active: true }
-      })
-    )
+    setFilters({
+      ...filters,
+      tag: 'all',
+    })
+
+    emmitter.emit('filter:change', { key: 'all' })
   }
 
   const selectTag = (index) => {
-    const newTags = [...tags]
-    const key = newTags[index].title.toLowerCase()
-    const currentTags = newTags.filter((item, i) => item.active === true)
-
-    if (activeTags.length === 10) {
-      newTags.forEach((item, i) => {
-        item.active = index === i
-      })
+    const tag = tags[index]
+    const key = tag.title.toLowerCase()
+    if (filters.tag === key) {
+      resetFilters()
     } else {
-      if (
-        currentTags.length === 1 &&
-        currentTags[0].title.toLowerCase() === key
-      ) {
-        resetFilters()
-        return
-      } else {
-        newTags.forEach((item, i) => {
-          item.active = index === i
-        })
-      }
+      emmitter.emit('filter:change', { key })
+      setFilters({
+        ...filters,
+        tag: key,
+      })
     }
-    setTags(newTags)
   }
-
-  useEffect(() => {
-    const newTags = tags
-      .filter((item) => item.active === true)
-      .map((item) => item.title.toLowerCase())
-    setFilters({
-      ...filters,
-      tags: newTags,
-    })
-    // eslint-disable-next-line
-  }, [tags])
 
   return (
     <div className="work-filters-outer">
@@ -143,7 +113,10 @@ const WorkFilters = () => {
                     selectTag(index)
                   }}
                   className={`work-filters__category work-filters__filter ${
-                    item.active ? 'active' : ''
+                    item.title.toLowerCase() === filters.tag ||
+                    filters.tag === 'all'
+                      ? 'active'
+                      : ''
                   }`}
                 >
                   <div>
@@ -164,7 +137,10 @@ const WorkFilters = () => {
                     selectTag(5 + index)
                   }}
                   className={`work-filters__tag work-filters__filter ${
-                    item.active ? 'active' : ''
+                    item.title.toLowerCase() === filters.tag ||
+                    filters.tag === 'all'
+                      ? 'active'
+                      : ''
                   }`}
                 >
                   <div>

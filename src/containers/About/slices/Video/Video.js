@@ -3,7 +3,7 @@ import WaypointVideo from 'components/WaypointVideo/WaypointVideo'
 import sizeCheck from 'util/sizeCheck'
 import './Video.scss'
 
-const Video = props => {
+const Video = (props) => {
   const data = props.data.value[0]
   const { url } = data.file
   const isFullScreen = data.layout === 'fullscreen'
@@ -12,10 +12,12 @@ const Video = props => {
   const poster = data.poster.url
   sizeCheck({ ...data.file }, 7)
 
-  console.log(data)
-
   return (
-    <div className={`about__video ${data.class_names} ${isFullScreen ? '-fs' : '-wrap'}`}>
+    <div
+      className={`about__video ${data.class_names} ${
+        isFullScreen ? '-fs' : '-wrap'
+      }`}
+    >
       <WaypointVideo
         muteToggle={videoHasAudio}
         controls={videoHasControls}

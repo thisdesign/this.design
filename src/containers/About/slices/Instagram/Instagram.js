@@ -1,32 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { RichText } from 'prismic-reactjs'
+
 import useFetch from 'util/useFetch'
 import api from './api'
 import './Instagram.scss'
 
-function Instagram() {
-  const response = useFetch(api)
-  const urls =
-    response && response.data
-      ? response.data.map(img => img.images.standard_resolution.url)
-      : []
+function Instagram({ data }) {
+  const { title, behold_id } = data.value[0]
+
+  useEffect(() => {
+    window.beholdWidgets.initialize()
+  }, [])
 
   return (
-    <div className="about__instagram -wrap">
-      {urls &&
-        urls.map(imgUrl => (
-          <a
-            href="https://instagram.com/this"
-            key={imgUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              className="about__instagram__item"
-              src={imgUrl}
-              alt="This Design"
-            />
-          </a>
-        ))}
+    <div className="instagram__section">
+      {RichText.render(title)}
+      <figure data-behold-id={behold_id}></figure>
     </div>
   )
 }

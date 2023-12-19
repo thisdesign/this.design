@@ -17,7 +17,6 @@ Styled.Logo = styled.img`
   bottom: 130px;
   transform: translateY(calc(-50vh));
   @media (max-width: 475px) {
-    
     transform: translateY(calc(-50vh + 140px));
     // top: unset;
     // transform: translateY(0);
@@ -35,7 +34,6 @@ Styled.Logo = styled.img`
     }
     return null
   }}
-
 `
 
 Styled.Cover = styled.div`
@@ -77,7 +75,8 @@ Styled.Header = styled.div`
 
 const Item = styled.div`
   margin-bottom: 3.5vh;
-  transition: opacity 600ms ${({ theme }) => theme.ease.standard},
+  transition:
+    opacity 600ms ${({ theme }) => theme.ease.standard},
     transform 600ms ${({ theme }) => theme.ease.standard};
 
   ${({ itemTitle, next, csTransitioning, isHome }) => {
@@ -100,11 +99,11 @@ Styled.Title = styled(Item)`
   margin-bottom: 15px;
   p {
     font-family: calibre-light;
-    line-height: .9;
+    line-height: 0.9;
     font-size: 80px;
     margin-top: 0;
     margin-bottom: 15px;
-    @media (max-width:475px) {
+    @media (max-width: 475px) {
       font-size: 30px;
     }
   }
@@ -142,7 +141,7 @@ Styled.AuxWrapper = styled.div`
   width: auto;
   max-width: 100%;
   z-index: ${zIndex.aux};
-  width: ${props => props.width}vw;
+  width: ${(props) => props.width}vw;
   ${({ position }) => _setPositionStyles(position)};
 `
 

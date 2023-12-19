@@ -41,7 +41,7 @@ Styled.Inner = styled.div`
     css`
       a {
         border-bottom: 1px solid
-          ${props => {
+          ${(props) => {
             const { red, green, blue } = hexRgb(props.textColor)
             return `rgba(${red}, ${green}, ${blue}, 0.2)`
           }};
@@ -50,7 +50,7 @@ Styled.Inner = styled.div`
 `
 
 Styled.Shim = styled.div`
-  position: ${props => (props.home ? 'fixed' : 'relative')};
+  position: ${(props) => (props.home ? 'fixed' : 'relative')};
   top: 0;
   left: 0;
   display: block;

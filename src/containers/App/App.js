@@ -14,9 +14,6 @@ export const ApiDataCtx = createContext()
 
 function DataFetch({ context }) {
   const data = useApi({ context })
-
-  console.log(data)
-  
   if (data) {
     return (
       <ApiDataCtx.Provider value={data}>

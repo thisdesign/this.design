@@ -5,8 +5,6 @@ import './Gridwall.scss'
 const Gridwall = props => {
   const { items } = props.data
 
-  // console.log(props);
-
   return (
     <div className="about__gridwall -wrap">
       {items.map((item, index) => {

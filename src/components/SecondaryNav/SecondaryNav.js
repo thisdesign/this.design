@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { LayoutContext } from 'containers/Layout/Layout'
+import emitter from 'tiny-emitter/instance'
 import './SecondaryNav.scss'
 
 const SecondaryNav = () => {
@@ -13,15 +14,6 @@ const SecondaryNav = () => {
     csState: { currentUid },
   } = context
 
-  // const linkTo = link => {
-  //   if (view === 'root') {
-  //     return `/${link}`
-  //   } if (currentUid) {
-  //     return `/work/${currentUid}`
-  //   }
-  //   return '/'
-  // }
-
   const navState = [
     navInverted && view === 'root' ? 'nav--dark' : '',
     `-view-is-${view}`,
@@ -32,20 +24,25 @@ const SecondaryNav = () => {
     <nav className={`secondaryNav -wrap-nav ${navState}`}>
       <div className="secondaryNav__inner">
         <div className="secondaryNav__item">
-          <Link to={`/about`}>
-            <span>About</span>
-          </Link>
+          <a
+            href="https://thisllc.myshopify.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span>SHOP</span>
+          </a>
         </div>
         <div className={`secondaryNav__item filter`}>
           <button
-            onClick={() =>
+            onClick={() => {
               setFilters({
                 ...filters,
                 active: true,
               })
-            }
+              emitter.emit('filter:show')
+            }}
           >
-            <span>Filter</span>
+            {filters.tag === 'all' ? 'Filter' : 'Filtered'}
           </button>
         </div>
       </div>

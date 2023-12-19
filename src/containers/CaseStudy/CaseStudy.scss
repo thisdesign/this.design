@@ -2,6 +2,17 @@
 
 .casestudy {
 
+  &_animation {
+    opacity: 0;
+    transition: opacity .3s ease-out .6s;
+    &:first-of-type {
+      transition: opacity .3s ease-out .3s;
+    }
+    &.active {
+      opacity: 1;
+    }
+  }
+
   .-waypointAnim {
     &--fadeIn {
       opacity: 0;

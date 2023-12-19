@@ -55,7 +55,7 @@ export const LayoutContext = React.createContext<ContextProps>({
   },
   view: '',
   mobileMenu: true,
-  filters: {active: false},
+  filters: {active: false, tag: 'all'},
   setFilters: () => null,
   setMobileMenu: () => null,
   launchProject: () => null,
@@ -69,18 +69,7 @@ const csState = useRouterData({ pathUid })
 
   const [filters, setFilters] = useState({
     active: false,
-    tags: [
-      'strategy',
-      'branding',
-      'digital',
-      'content',
-      'environment',
-      'sustainability',
-      'outdoor',
-      'transportation',
-      'hospitality',
-      'culture'
-    ]
+    tag: 'all'
   })
   const [mobileMenu, setMobileMenu] = useState(false)
   const { revertNav, invertNav, navInverted } = useNavInvert()
