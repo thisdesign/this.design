@@ -81,7 +81,7 @@ function createVideoCard(video) {
   item.cursor = 'pointer'
 
   item.alpha = 0
-  item.position.y = 100
+  item.position.y = 150
 
   item.on('click', function (e) {
     emitter.emit('video:click', video, item.position)
@@ -113,7 +113,7 @@ function createCard(caseStudy, cardIndex) {
   const item = new PIXI.Sprite()
   item.anchor.set(0.5)
   item.position.x = (ITEM_WIDTH + GRID_MARGIN) * point[0]
-  item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] + 100
+  item.position.y = (ITEM_HEIGHT + GRID_MARGIN) * point[1] + 150
 
   //create bg
   const bgImage = new PIXI.Graphics()
@@ -130,12 +130,12 @@ function createCard(caseStudy, cardIndex) {
   overlay.alpha = 0
 
   //create bg
-  const bgOverlay = new PIXI.Graphics()
-  bgOverlay.beginFill(0x000000)
-  bgOverlay.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
-  bgOverlay.endFill()
-  bgOverlay.alpha = 0.2
-  overlay.addChild(bgOverlay)
+  // const bgOverlay = new PIXI.Graphics()
+  // bgOverlay.beginFill(0x000000)
+  // bgOverlay.drawRoundedRect(0, 0, ITEM_WIDTH, ITEM_HEIGHT, 8)
+  // bgOverlay.endFill()
+  // bgOverlay.alpha = 0.2
+  // overlay.addChild(bgOverlay)
 
   // create logo
   const logo = PIXI.Sprite.from(caseStudy.data.svg.url)
@@ -162,7 +162,8 @@ function createCard(caseStudy, cardIndex) {
   // create work text
   const workText = new PIXI.Text('VIEW WORK', {
     fontFamily: 'calibre-light',
-    fontSize: 12,
+    fontSize: 10,
+    letterSpacing: 3,
     fill: 0xffffff,
     align: 'left',
   })
@@ -181,6 +182,24 @@ function createCard(caseStudy, cardIndex) {
   item.alpha = 0
 
   item.on('mouseover', function (e) {
+    // bgImage.scale.x = 1.02
+    // bgImage.scale.y = 1.02
+    // bgImage.position.x = ITEM_WIDTH * -0.01 + ITEM_WIDTH * -0.5
+    // bgImage.position.y = ITEM_HEIGHT * -0.01 + ITEM_HEIGHT * -0.5
+
+    gsap.to(bgImage.scale, {
+      x: 1.02,
+      y: 1.02,
+      duration: 0.5,
+      overwrite: true,
+    })
+    gsap.to(bgImage.position, {
+      x: ITEM_WIDTH * -0.01 + ITEM_WIDTH * -0.5,
+      y: ITEM_HEIGHT * -0.01 + ITEM_HEIGHT * -0.5,
+      duration: 0.5,
+      overwrite: true,
+    })
+
     gsap.to(overlay, {
       alpha: 1,
       duration: 0.5,
@@ -188,6 +207,24 @@ function createCard(caseStudy, cardIndex) {
     })
   })
   item.on('mouseout', function (e) {
+    // bgImage.scale.x = 1
+    // bgImage.scale.y = 1
+    // bgImage.position.x = ITEM_WIDTH * -0.5
+    // bgImage.position.y = ITEM_HEIGHT * -0.5
+
+    gsap.to(bgImage.scale, {
+      x: 1,
+      y: 1,
+      duration: 0.5,
+      overwrite: true,
+    })
+    gsap.to(bgImage.position, {
+      x: ITEM_WIDTH * -0.5,
+      y: ITEM_HEIGHT * -0.5,
+      duration: 0.5,
+      overwrite: true,
+    })
+
     gsap.to(overlay, {
       alpha: 0,
       duration: 0.3,
@@ -205,6 +242,7 @@ function createCard(caseStudy, cardIndex) {
   return {
     view: item,
     overlay,
+    bgImage,
   }
 }
 
@@ -273,6 +311,16 @@ export function toggleCards(canHover, caseStudies) {
           alpha: 0,
           ...ANIMATION_OPTIONS,
         })
+      gsap.to(card.bgImage.scale, {
+        x: 1,
+        y: 1,
+        ...ANIMATION_OPTIONS,
+      })
+      gsap.to(card.bgImage.position, {
+        x: ITEM_WIDTH * -0.5,
+        y: ITEM_HEIGHT * -0.5,
+        ...ANIMATION_OPTIONS,
+      })
     }
   })
 }
